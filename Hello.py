@@ -1,51 +1,32 @@
-# Copyright (c) Streamlit Inc. (2018-2022) Snowflake Inc. (2022)
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#     http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-
+# 2024-1-9 借助于文心来写的，其实没那么复杂，业务为王，我很认同
+# 1-9先暂时如此吧，然后等seer1模型确定之后，保存模型，然后在这里部署
 import streamlit as st
-from streamlit.logger import get_logger
+import pandas as pd
+import matplotlib.pyplot as plt
 
-LOGGER = get_logger(__name__)
+# 加载数据
+# df = pd.read_csv('data.csv')
+# 添加logo
+# 设置Logo路径，请替换为你的Logo图片路径
+logo_path = 'python.jpg'
 
+# 在侧边栏中展示Logo
+st.sidebar.image(logo_path, width=200)
 
-def run():
-    st.set_page_config(
-        page_title="Hello",
-        page_icon="👋",
-    )
+# 创建侧边栏选项
+options = ['Line Plot', 'Bar Chart', 'Pie Chart']
+# selected_option = st.sidebar.selectbox('Select a chart type', options) # 下拉选
+selected_option = st.sidebar.radio('Select a chart type', options) #直接选，这个更好
 
-    st.write("# Welcome to Streamlit! 👋")
+# 根据选择展示不同的图表
+if selected_option == 'Line Plot':
+    st.write('This is a line plot:')
 
-    st.sidebar.success("Select a demo above.")
+elif selected_option == 'Bar Chart':
+    st.write('This is a bar chart:')
 
-    st.markdown(
-        """
-        Streamlit is an open-source app framework built specifically for
-        Machine Learning and Data Science projects.
-        **👈 Select a demo from the sidebar** to see some examples
-        of what Streamlit can do!
-        ### Want to learn more?
-        - Check out [streamlit.io](https://streamlit.io)
-        - Jump into our [documentation](https://docs.streamlit.io)
-        - Ask a question in our [community
-          forums](https://discuss.streamlit.io)
-        ### See more complex demos
-        - Use a neural net to [analyze the Udacity Self-driving Car Image
-          Dataset](https://github.com/streamlit/demo-self-driving)
-        - Explore a [New York City rideshare dataset](https://github.com/streamlit/demo-uber-nyc-pickups)
-    """
-    )
+elif selected_option == 'Pie Chart':
+    st.write('This is a pie chart:')
 
-
-if __name__ == "__main__":
-    run()
+else:
+    st.write('Invalid selection')
