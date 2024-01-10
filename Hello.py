@@ -2,7 +2,7 @@
 # 1-9先暂时如此吧，然后等seer1模型确定之后，保存模型，然后在这里部署
 import streamlit as st
 import pandas as pd
-import matplotlib.pyplot as plt
+# import matplotlib.pyplot as plt
 
 # 加载数据
 # df = pd.read_csv('data.csv')
