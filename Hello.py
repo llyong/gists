@@ -50,7 +50,7 @@ if selected_option == 'seer1 GISTs':
     # st.write(f"We predict your penguin is of the {prediction_species} species")
 
     st.write(f"Result ： {bill_length+ bill_depth+ flipper_length+ body_mass+ island_biscoe+ island_dream+
-    #                                island_torgerson+ sex_female+ sex_male}")
+                         island_torgerson+ sex_female+ sex_male}")
 
 
 elif selected_option == 'seer2 GISTs':
