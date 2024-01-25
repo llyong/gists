@@ -9,7 +9,7 @@ import pandas as pd
 
 # 添加侧边栏图片
 logo_path = 'gist.png'
-st.sidebar.image(logo_path, width=229)
+st.sidebar.image(logo_path, width=239)
 
 # 创建侧边栏选项
 options = ['seer1 GISTs', 'seer2 GISTs', 'Pie Chart']
