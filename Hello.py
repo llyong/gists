@@ -48,9 +48,9 @@ if selected_option == 'seer1 GISTs':
     #                                island_torgerson, sex_female, sex_male]])
     # prediction_species = unique_penguin_mapping[new_prediction][0]
     # st.write(f"We predict your penguin is of the {prediction_species} species")
-
-    st.write(f"Result ： {bill_length+ bill_depth+ flipper_length+ body_mass+ island_biscoe+ island_dream+
-                         island_torgerson+ sex_female+ sex_male}")
+    Result = bill_length+ bill_depth+ flipper_length+ body_mass+ island_biscoe+ island_dream+
+                         island_torgerson+ sex_female+ sex_male
+    st.write(f"Result ： {Result}")
 
 
 elif selected_option == 'seer2 GISTs':
