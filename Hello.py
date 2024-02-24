@@ -12,13 +12,13 @@ logo_path = 'gist.png'
 st.sidebar.image(logo_path, width=236)
 
 # 创建侧边栏选项
-options = ['Nomogram Models for Prognostic Prediction in Gastric Gastrointestinal Stromal Tumors New Insights from a Global Real-World Cohort Study','seer1 GISTs', 'seer2 GISTs', 'Pie Chart']
+options = ['Nomogram Models for Prognostic Prediction in Gastric Gastrointestinal Stromal Tumors New Insights from a Global RealWorld Cohort Study','seer1 GISTs', 'seer2 GISTs', 'Pie Chart']
 # selected_option = st.sidebar.selectbox('Select a chart type', options) # 下拉选
 selected_option = st.sidebar.radio('Select the Research Paper:', options) #直接选，这个更好
 
 
 # 根据选择展示不同的图表
-if selected_option == 'Nomogram Models for Prognostic Prediction in Gastric Gastrointestinal Stromal Tumors New Insights from a Global Real-World Cohort Study':
+if selected_option == 'Nomogram Models for Prognostic Prediction in Gastric Gastrointestinal Stromal Tumors New Insights from a Global RealWorld Cohort Study':
     # rf_pickle = open('random_forest_penguin.pickle', 'rb')
     # map_pickle = open('output_penguin.pickle', 'rb')
     # rfc = pickle.load(rf_pickle)
