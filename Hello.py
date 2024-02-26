@@ -64,16 +64,20 @@ if selected_option == 'Nomogram Models for Prognostic Prediction in Gastric Gast
     #
     if Tumor_size == "5-10cm":
         Tumor_size_5_10cm = True
+        Tumor_size_bigger_10cm = False
     elif Tumor_size == ">10cm":
         Tumor_size_bigger_10cm = True
+        Tumor_size_5_10cm = False
     else:
         Tumor_size_5_10cm = False
         Tumor_size_bigger_10cm = False
     #
     if AJCC_Stage == "Ⅲ":
         AJCC_Stage_3 = True
+        AJCC_Stage_4 = False
     elif AJCC_Stage == "Ⅳ":
         AJCC_Stage_4 = True
+        AJCC_Stage_3 = False
     else:
         AJCC_Stage_3 = False
         AJCC_Stage_4 = False
