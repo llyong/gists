@@ -5,8 +5,7 @@
 import streamlit as st
 import pandas as pd
 from joblib import dump, load
-# import matplotlib.pyplot as plt
-# import pickle
+
 
 # 添加侧边栏图片
 logo_path = 'gist.png'
@@ -17,28 +16,28 @@ options = ['Nomogram Models for Prognostic Prediction in Gastric Gastrointestina
 # selected_option = st.sidebar.selectbox('Select a chart type', options) # 下拉选
 selected_option = st.sidebar.radio('Select the Research Paper:', options) #直接选，这个更好
 
-# 导入模型
-cph_os = load('cph_os.joblib')
-cph_css = load('cph_css.joblib')
-
-
 
 # 根据选择展示不同的图表
 if selected_option == 'Nomogram Models for Prognostic Prediction in Gastric Gastrointestinal Stromal Tumors New Insights from a Global RealWorld Cohort Study':
-    # rf_pickle = open('random_forest_penguin.pickle', 'rb')
-    # map_pickle = open('output_penguin.pickle', 'rb')
-    # rfc = pickle.load(rf_pickle)
-    # unique_penguin_mapping = pickle.load(map_pickle)
-    # rf_pickle.close()
-    # map_pickle.close()
-
-    island = st.selectbox("Penguin Island", options=["Biscoe", "Dream", "Torgerson"])
+    # 导入模型
+    cph_os = load('cph_os.joblib')
+    cph_css = load('cph_css.joblib')
+['Sex_Male','Race_Black','Marital_status_at_diagnosis_Single',
+            'Tumor_grade_Poorly_differentiated_undifferentiated','Tumor_size_5_10cm','Tumor_size_bigger_10cm',
+            'AJCC_Stage_3','AJCC_Stage_4','Surgery_NoSurgery','Regional_nodes_examined_bigger_4','Age_at_diagnosis']
+ 
+    # 类别型
     sex = st.selectbox("Sex", options=["Female", "Male"])
+    Race = st.selectbox("Race", options=["Black", "White","Others"])
+    Marital_status_at_diagnosis = st.selectbox("Marital status at diagnosis", options=["Single", "Married"])
+
+    # 数值型
     bill_length = st.number_input("Bill Length (mm)", min_value=0)
     bill_depth = st.number_input("Bill Depth (mm)", min_value=0)
     flipper_length = st.number_input("Flipper Length (mm)", min_value=0)
     body_mass = st.number_input("Body Mass (g)", min_value=0)
     island_biscoe, island_dream, island_torgerson = 0, 0, 0
+    
     if island == 'Biscoe':
         island_biscoe = 1
     elif island == 'Dream':
