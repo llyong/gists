@@ -4,7 +4,8 @@
 
 import streamlit as st
 import pandas as pd
-from joblib import dump, load
+pip install joblib
+from joblib import load
 
 
 # 添加侧边栏图片
