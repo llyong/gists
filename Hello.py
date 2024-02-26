@@ -29,11 +29,7 @@ if selected_option == 'Nomogram Models for Prognostic Prediction in Gastric Gast
     with open('cph_css.pkl', 'rb') as file:
         cph_css = pickle.load(file)
 
-    
 
-        
-    cph_os = load('cph_os.joblib')
-    cph_css = load('cph_css.joblib')
     #['Sex_Male','Race_Black','Marital_status_at_diagnosis_Single',
            # 'Tumor_grade_Poorly_differentiated_undifferentiated','Tumor_size_5_10cm','Tumor_size_bigger_10cm',
             #'AJCC_Stage_3','AJCC_Stage_4','Surgery_NoSurgery','Regional_nodes_examined_bigger_4','Age_at_diagnosis']
