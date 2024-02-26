@@ -22,9 +22,9 @@ if selected_option == 'Nomogram Models for Prognostic Prediction in Gastric Gast
     # 导入模型
     cph_os = load('cph_os.joblib')
     cph_css = load('cph_css.joblib')
-['Sex_Male','Race_Black','Marital_status_at_diagnosis_Single',
-            'Tumor_grade_Poorly_differentiated_undifferentiated','Tumor_size_5_10cm','Tumor_size_bigger_10cm',
-            'AJCC_Stage_3','AJCC_Stage_4','Surgery_NoSurgery','Regional_nodes_examined_bigger_4','Age_at_diagnosis']
+    #['Sex_Male','Race_Black','Marital_status_at_diagnosis_Single',
+           # 'Tumor_grade_Poorly_differentiated_undifferentiated','Tumor_size_5_10cm','Tumor_size_bigger_10cm',
+            #'AJCC_Stage_3','AJCC_Stage_4','Surgery_NoSurgery','Regional_nodes_examined_bigger_4','Age_at_diagnosis']
  
     # 类别型
     sex = st.selectbox("Sex", options=["Female", "Male"])
@@ -37,7 +37,8 @@ if selected_option == 'Nomogram Models for Prognostic Prediction in Gastric Gast
     flipper_length = st.number_input("Flipper Length (mm)", min_value=0)
     body_mass = st.number_input("Body Mass (g)", min_value=0)
     island_biscoe, island_dream, island_torgerson = 0, 0, 0
-    
+
+    # 模型输入
     if island == 'Biscoe':
         island_biscoe = 1
     elif island == 'Dream':
