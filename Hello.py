@@ -120,20 +120,20 @@ if selected_option == 'Nomogram Models for Prognostic Prediction in Gastric Gast
 
     #输出结果
     st.write("OS cox nomograms at six-time points: ")
-    st.write(f"Half a Year ： {os_half}")
-    st.write(f"One Year ： {os_1}")
-    st.write(f"Three Years ： {os_3}")
-    st.write(f"Five Years ： {os_5}")
-    st.write(f"Seven Years ： {os_7}")
-    st.write(f"Ten Years ： {os_10}")
+    st.write(f"Half a Year ： {os_half.values}")
+    st.write(f"One Year ： {os_1.values}")
+    st.write(f"Three Years ： {os_3.values}")
+    st.write(f"Five Years ： {os_5.values}")
+    st.write(f"Seven Years ： {os_7.values}")
+    st.write(f"Ten Years ： {os_10.values}")
 
     st.write("CSS cox nomograms at six-time points: ")
-    st.write(f"Half a Year ： {css_half}")
-    st.write(f"One Year ： {css_1}")
-    st.write(f"Three Years ： {css_3}")
-    st.write(f"Five Years ： {css_5}")
-    st.write(f"Seven Years ： {css_7}")
-    st.write(f"Ten Years ： {css_10}")
+    st.write(f"Half a Year ： {css_half.values}")
+    st.write(f"One Year ： {css_1.values}")
+    st.write(f"Three Years ： {css_3.values}")
+    st.write(f"Five Years ： {css_5.values}")
+    st.write(f"Seven Years ： {css_7.values}")
+    st.write(f"Ten Years ： {css_10.values}")
 elif selected_option == 'Coming soon':
 
     st.write(f"comming soon...")
