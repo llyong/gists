@@ -74,6 +74,9 @@ if selected_option == 'Nomogram Models for Prognostic Prediction in Gastric Gast
         AJCC_Stage_3 = True
     elif AJCC_Stage == "Ⅳ":
         AJCC_Stage_4 = True
+    else:
+        AJCC_Stage_3 = False
+        AJCC_Stage_4 = False
     #
     if Surgery == "No Surgery":
         Surgery_NoSurgery = True
