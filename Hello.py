@@ -4,6 +4,7 @@
 
 import streamlit as st
 import pandas as pd
+from joblib import dump, load
 # import matplotlib.pyplot as plt
 # import pickle
 
@@ -15,6 +16,11 @@ st.sidebar.image(logo_path, width=236)
 options = ['Nomogram Models for Prognostic Prediction in Gastric Gastrointestinal Stromal Tumors New Insights from a Global RealWorld Cohort Study','seer1 GISTs', 'seer2 GISTs', 'Pie Chart']
 # selected_option = st.sidebar.selectbox('Select a chart type', options) # 下拉选
 selected_option = st.sidebar.radio('Select the Research Paper:', options) #直接选，这个更好
+
+# 导入模型
+cph_os = load('cph_os.joblib')
+cph_css = load('cph_css.joblib')
+
 
 
 # 根据选择展示不同的图表
