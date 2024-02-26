@@ -20,14 +20,15 @@ selected_option = st.sidebar.radio('Select the Research Paper:', options) #直�
 
 # 根据选择展示不同的图表
 if selected_option == 'Nomogram Models for Prognostic Prediction in Gastric Gastrointestinal Stromal Tumors New Insights from a Global RealWorld Cohort Study':
+    
     # 导入模型
-    with open('cph_os.pkl', 'rb') as file:
-        cph_os = pickle.load(file)
+    # with open('cph_os.pkl', 'rb') as file:
+    #     cph_os = pickle.load(file)
 
 
     
-    with open('cph_css.pkl', 'rb') as file:
-        cph_css = pickle.load(file)
+    # with open('cph_css.pkl', 'rb') as file:
+    #     cph_css = pickle.load(file)
 
 
     #['Sex_Male','Race_Black','Marital_status_at_diagnosis_Single',
