@@ -5,7 +5,7 @@
 import streamlit as st
 import pandas as pd
 #from joblib import load #python3.11不支持
-# from lifelines import CoxPHFitter
+from lifelines import CoxPHFitter
 import pickle
 
 
