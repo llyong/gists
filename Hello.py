@@ -1,7 +1,7 @@
 # 2024-1-9 借助于文心来写的，其实没那么复杂，业务为王，我很认同
 # 1-9先暂时如此吧，然后等seer1模型确定之后，保存模型，然后在这里部署
 # 1-23 用实践书的企鹅数据做部署，总体就是“建模和输入输出的部署”
-
+# 2024-2-27 这次部署，还是通过重新new一次才可以，回头研究一下
 import streamlit as st
 import pandas as pd
 #from joblib import load #python3.11不支持
@@ -119,8 +119,7 @@ if selected_option == 'Nomogram Models for Prognostic Prediction in Gastric Gast
         css_10 = cph_css.predict_survival_function(css_df).loc[120]
 
     #输出结果
-    st.header("OS cox nomograms at six-time points: ")
-    st.subheader(f"Half a Year ："),st.write(os_half.values)
+    st.subheader("OS cox nomograms at six-time points: ")
     st.write(f"Half a Year ： {os_half.values}")
     st.write(f"One Year ： {os_1.values}")
     st.write(f"Three Years ： {os_3.values}")
@@ -128,7 +127,7 @@ if selected_option == 'Nomogram Models for Prognostic Prediction in Gastric Gast
     st.write(f"Seven Years ： {os_7.values}")
     st.write(f"Ten Years ： {os_10.values}")
 
-    st.header("CSS cox nomograms at six-time points: ")
+    st.subheader("CSS cox nomograms at six-time points: ")
     st.write(f"Half a Year ： {css_half.values}")
     st.write(f"One Year ： {css_1.values}")
     st.write(f"Three Years ： {css_3.values}")
