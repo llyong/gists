@@ -22,9 +22,7 @@ selected_option = st.sidebar.radio('Select the Research Paper:', options) #直�
 # 根据选择展示不同的图表
 if selected_option == 'Nomogram Models for Prognostic Prediction in Gastric Gastrointestinal Stromal Tumors New Insights from a Global RealWorld Cohort Study':
     
-    #['Sex_Male','Race_Black','Marital_status_at_diagnosis_Single',
-           # 'Tumor_grade_Poorly_differentiated_undifferentiated','Tumor_size_5_10cm','Tumor_size_bigger_10cm',
-            #'AJCC_Stage_3','AJCC_Stage_4','Surgery_NoSurgery','Regional_nodes_examined_bigger_4','Age_at_diagnosis']
+    st.header("Please enter your information: ")
  
     # 类别型
     Sex = st.selectbox("Sex", options=["Female", "Male"])
