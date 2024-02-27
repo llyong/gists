@@ -118,7 +118,7 @@ if selected_option == 'Nomogram Models for Prognostic Prediction in Gastric Gast
 
     #输出结果
     st.subheader("OS cox nomograms at six-time points: ")
-    st.write(f"Half a Year ： {os_half.values}")
+    st.write(f"Half a Year ： {str(os_half.values)}")
     st.write(f"One Year ： {os_1.values}")
     st.write(f"Three Years ： {os_3.values}")
     st.write(f"Five Years ： {os_5.values}")
