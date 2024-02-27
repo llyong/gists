@@ -132,6 +132,11 @@ if selected_option == 'Nomogram Models for Prognostic Prediction in Gastric Gast
     st.write(f"Five Years ： {css_5.values}")
     st.write(f"Seven Years ： {css_7.values}")
     st.write(f"Ten Years ： {css_10.values}")
+    st.markdown('''
+    **Disclaimer:**
+    This research is currently in the laboratory phase. The findings and outcomes presented are preliminary and have not been subjected to the rigorous testing and validation required for clinical application. The use of the information, techniques, or products described herein is at the user's own risk. It is imperative that any potential clinical application be preceded by thorough scientific evaluation and regulatory approval. The authors and affiliated institutions assume no liability for any adverse consequences resulting from the use of the information provided.
+    ''')
+
 elif selected_option == 'Coming soon':
 
     st.write(f"comming soon...")
