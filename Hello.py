@@ -119,7 +119,8 @@ if selected_option == 'Nomogram Models for Prognostic Prediction in Gastric Gast
         css_10 = cph_css.predict_survival_function(css_df).loc[120]
 
     #输出结果
-    st.write("OS cox nomograms at six-time points: ")
+    st.header("OS cox nomograms at six-time points: ")
+    st.subheader(f"Half a Year ："),st.write(os_half.values)
     st.write(f"Half a Year ： {os_half.values}")
     st.write(f"One Year ： {os_1.values}")
     st.write(f"Three Years ： {os_3.values}")
@@ -127,7 +128,7 @@ if selected_option == 'Nomogram Models for Prognostic Prediction in Gastric Gast
     st.write(f"Seven Years ： {os_7.values}")
     st.write(f"Ten Years ： {os_10.values}")
 
-    st.write("CSS cox nomograms at six-time points: ")
+    st.header("CSS cox nomograms at six-time points: ")
     st.write(f"Half a Year ： {css_half.values}")
     st.write(f"One Year ： {css_1.values}")
     st.write(f"Three Years ： {css_3.values}")
