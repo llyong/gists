@@ -174,6 +174,7 @@ elif selected_option=='Comparative Prognostic Accuracy of Proportional versus No
         plt.ylabel(r"Probability of Survival $\hat{S}(t)$")
         plt.xlabel("time $t$")
         plt.legend(loc="best")
+        plt.show()
     with open('coxboost.pkl', 'rb') as file:
         coxboost = pickle.load(file)
         pred_surv = coxboost.predict_survival_function(patient_df)
@@ -183,6 +184,7 @@ elif selected_option=='Comparative Prognostic Accuracy of Proportional versus No
         plt.ylabel(r"Probability of Survival $\hat{S}(t)$")
         plt.xlabel("time $t$")
         plt.legend(loc="best")
+        plt.show()
 
 elif selected_option == 'radiomics Comming soon':
 
