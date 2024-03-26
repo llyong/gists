@@ -150,8 +150,39 @@ elif selected_option=='Comparative Prognostic Accuracy of Proportional versus No
     #     plt.ylabel('S(t | x)')
     #     _ = plt.xlabel('Time')
     #     ax.get_legend().remove
-    # 下面暂时用coxph做一个展示，后续排查之后再把其余加上去，ps：另外rsf由于pickle文件过大无法上传
-
+    # 下面暂时用coxph做一个展示，后续排查之后再把其余加上去，ps：另外rsf由于pickle文件过大无法上传，后续部署个人服务器会加上
+    # 你提供的字典
+    patient_data = {
+        'Sex_Male': 1,
+        'Race_Black': 0,
+        'Marital_status_at_diagnosis_Single': 1,
+        'Tumor_size_5_10cm': 0,
+        'Tumor_size_bigger_10cm': 0,
+        'AJCC_Stage_III': 0,
+        'AJCC_Stage_IV': 0,
+        'Surgery_NoSurgery': 1,
+        'Regional_nodes_examined_bigger_4': 0,
+        'Age_at_diagnosis': 79,
+    }
+    # 将字典转换为pandas Series然后为dataframe
+    patient_series = (pd.Series(patient_data)).to_frame()
+    patient_df = patient_series.T
+    # 开始预测
+    with open('cph.pkl', 'rb') as file:
+        cph = pickle.load(file)
+        cph.predict_survival_function(patient_df).rename(columns={0:'Proportional Hazards'}).plot(color='#FF8C00')
+        plt.ylabel(r"Probability of Survival $\hat{S}(t)$")
+        plt.xlabel("time $t$")
+        plt.legend(loc="best")
+    with open('coxboost.pkl', 'rb') as file:
+        coxboost = pickle.load(file)
+        pred_surv = coxboost.predict_survival_function(patient_df)
+        time_points = np.arange(1, 251)
+        for i, surv_func in enumerate(pred_surv):
+            plt.step(time_points, surv_func(time_points), where="post", label="Non-Proportional Hazards",color='#0072BD')
+        plt.ylabel(r"Probability of Survival $\hat{S}(t)$")
+        plt.xlabel("time $t$")
+        plt.legend(loc="best")
 
 elif selected_option == 'radiomics Comming soon':
 
