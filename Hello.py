@@ -178,13 +178,14 @@ elif selected_option=='Comparative Prognostic Accuracy of Proportional versus No
     with open('coxboost.pkl', 'rb') as file:
         coxboost = pickle.load(file)
         pred_surv = coxboost.predict_survival_function(patient_df)
+        fig, ax = plt.subplots()
         time_points = np.arange(1, 251)
         for i, surv_func in enumerate(pred_surv):
-            plt.step(time_points, surv_func(time_points), where="post", label="Non-Proportional Hazards",color='#0072BD')
-        plt.ylabel(r"Probability of Survival $\hat{S}(t)$")
-        plt.xlabel("time $t$")
-        plt.legend(loc="best")
-        plt.show()
+            ax.step(time_points, surv_func(time_points), where="post", label="Non-Proportional Hazards",color='#0072BD')
+        ax.ylabel(r"Probability of Survival $\hat{S}(t)$")
+        ax.xlabel("time $t$")
+        ax.legend(loc="best")
+        st.pyplot(fig)
 
 elif selected_option == 'radiomics Comming soon':
 
