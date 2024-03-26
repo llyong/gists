@@ -22,6 +22,8 @@ selected_option = st.sidebar.radio('Select the Research Paper:', options) #直�
 
 # 根据选择展示不同的图表
 if selected_option == 'Nomogram Models for Prognostic Prediction in Gastric Gastrointestinal Stromal Tumors: New Insights from a Global RealWorld Cohort Study':
+    image_file = "seer1.jpg"
+    st.image(image_file, caption='GraphicalAbstract', use_column_width=True)
     
     st.header("Please enter your information: ")
  
@@ -118,8 +120,6 @@ if selected_option == 'Nomogram Models for Prognostic Prediction in Gastric Gast
         css_10 = cph_css.predict_survival_function(css_df).loc[120]
 
     #输出结果
-    image_file = "seer1.jpg"
-    st.image(image_file, caption='GraphicalAbstract', use_column_width=True)
     
     st.subheader("OS cox nomograms at six-time points: ")
     st.write(f"Half a Year ： {str(os_half.values)}")
