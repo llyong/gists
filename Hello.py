@@ -14,13 +14,13 @@ logo_path = 'gist.png'
 st.sidebar.image(logo_path, width=236)
 
 # 创建侧边栏选项
-options = ['Nomogram Models for Prognostic Prediction in Gastric Gastrointestinal Stromal Tumors New Insights from a Global RealWorld Cohort Study','Comparative Prognostic Accuracy of Proportional versus Non-Proportional Hazards Models in Gastric Gastrointestinal Stromal Tumors: From Traditional Statistics to Deep Learning','radiomics Comming soon']
+options = ['Nomogram Models for Prognostic Prediction in Gastric Gastrointestinal Stromal Tumors: New Insights from a Global RealWorld Cohort Study','Comparative Prognostic Accuracy of Proportional versus Non-Proportional Hazards Models in Gastric Gastrointestinal Stromal Tumors: From Traditional Statistics to Deep Learning','radiomics Comming soon']
 # selected_option = st.sidebar.selectbox('Select a chart type', options) # 下拉选
 selected_option = st.sidebar.radio('Select the Research Paper:', options) #直接选，这个更好
 
 
 # 根据选择展示不同的图表
-if selected_option == 'Nomogram Models for Prognostic Prediction in Gastric Gastrointestinal Stromal Tumors New Insights from a Global RealWorld Cohort Study':
+if selected_option == 'Nomogram Models for Prognostic Prediction in Gastric Gastrointestinal Stromal Tumors: New Insights from a Global RealWorld Cohort Study':
     
     st.header("Please enter your information: ")
  
