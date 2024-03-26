@@ -8,7 +8,7 @@ import numpy as np
 #from joblib import load #python3.11不支持
 # from lifelines import CoxPHFitter
 import pickle
-
+import matplotlib.pyplot as plt
 
 # 添加侧边栏图片
 logo_path = 'gist.png'
