@@ -2,6 +2,7 @@
 # 1-9先暂时如此吧，然后等seer1模型确定之后，保存模型，然后在这里部署
 # 1-23 用实践书的企鹅数据做部署，总体就是“建模和输入输出的部署”
 # 2024-2-27 这次部署，还是通过重新new一次才可以，回头研究一下
+# 2024-3-27 部署了seer2的对比，绘图
 import streamlit as st
 import pandas as pd
 import numpy as np
@@ -9,6 +10,7 @@ import numpy as np
 # from lifelines import CoxPHFitter
 import pickle
 import matplotlib.pyplot as plt
+plt.rcParams['font.family'] = 'Times New Roman'
 
 # 添加侧边栏图片
 logo_path = 'gist.png'
