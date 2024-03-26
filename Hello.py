@@ -138,6 +138,17 @@ if selected_option == 'Nomogram Models for Prognostic Prediction in Gastric Gast
     ''')
 elif selected_option=='Comparative Prognostic Accuracy of Proportional versus Non-Proportional Hazards Models in Gastric Gastrointestinal Stromal Tumors: From Traditional Statistics to Deep Learning':
     st.write(f"comming soon...")
+    tt = np.array([[0.57872546, 0.        , 0.        , 1.        , 0.        ,
+       1.        , 0.        , 1.        , 1.        , 0.        ]], dtype=np.float32)
+    
+    with open('deepcox.pkl', 'rb') as file:
+    deepcox = pickle.load(file)
+    _ = deepcox.compute_baseline_hazards() #计算基准风险函数
+    surv = deepcox.predict_surv_df(tt) #计算生存函数
+    ax=surv.plot()
+    plt.ylabel('S(t | x)')
+    _ = plt.xlabel('Time')
+    ax.get_legend().remove
 
 elif selected_option == 'radiomics Comming soon':
 
