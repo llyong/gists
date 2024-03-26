@@ -168,6 +168,7 @@ elif selected_option=='Comparative Prognostic Accuracy of Proportional versus No
     patient_series = (pd.Series(patient_data)).to_frame()
     patient_df = patient_series.T
     # 开始预测
+    plt.figure(figsize=(8, 6))
     with open('cph.pkl', 'rb') as file:
         cph = pickle.load(file)
         survival_function_df = cph.predict_survival_function(patient_df)
