@@ -170,11 +170,23 @@ elif selected_option=='Comparative Prognostic Accuracy of Proportional versus No
     # 开始预测
     with open('cph.pkl', 'rb') as file:
         cph = pickle.load(file)
-        cph.predict_survival_function(patient_df).rename(columns={0:'Proportional Hazards'}).plot(color='#FF8C00')
-        plt.ylabel(r"Probability of Survival $\hat{S}(t)$")
-        plt.xlabel("time $t$")
-        plt.legend(loc="best")
-        plt.show()
+        survival_function_df = cph.predict_survival_function(patient_df)
+        survival_function_df = survival_function_df.rename(columns={0:'Proportional Hazards'})
+        fig, ax = plt.subplots()
+        survival_function_df.plot(ax=ax, color='#FF8C00')
+
+        ax.set_ylabel(r"Probability of Survival $\hat{S}(t)$")
+        ax.set_xlabel("time $t$")
+        ax.legend(loc="best")
+
+        st.pyplot(fig)
+
+    
+        # cph.predict_survival_function(patient_df).rename(columns={0:'Proportional Hazards'}).plot(color='#FF8C00')
+        # plt.ylabel(r"Probability of Survival $\hat{S}(t)$")
+        # plt.xlabel("time $t$")
+        # plt.legend(loc="best")
+        # plt.show()
     with open('coxboost.pkl', 'rb') as file:
         coxboost = pickle.load(file)
         pred_surv = coxboost.predict_survival_function(patient_df)
