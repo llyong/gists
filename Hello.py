@@ -10,7 +10,7 @@ import numpy as np
 # from lifelines import CoxPHFitter
 import pickle
 import matplotlib.pyplot as plt
-plt.rcParams['font.family'] = 'Times New Roman'
+plt.rcParams['font.family'] = 'Arial'
 
 # 添加侧边栏图片
 logo_path = 'gist.png'
