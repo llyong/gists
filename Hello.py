@@ -227,7 +227,7 @@ elif selected_option=='Comparative Prognostic Accuracy of Proportional versus No
         'Race_Black': Race_Black,
         'Marital_status_at_diagnosis_Single': Marital_status_at_diagnosis_Single,
         'Tumor_size_5_10cm': Tumor_size_5_10cm,
-        'Tumor_size_bigger_10cm':Tumor_size_bigger_10cm0,
+        'Tumor_size_bigger_10cm':Tumor_size_bigger_10cm,
         'AJCC_Stage_III': AJCC_Stage_3,
         'AJCC_Stage_IV': AJCC_Stage_4,
         'Surgery_NoSurgery': Surgery_NoSurgery,
