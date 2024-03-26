@@ -238,6 +238,7 @@ elif selected_option=='Comparative Prognostic Accuracy of Proportional versus No
     patient_series = (pd.Series(patient_data)).to_frame()
     patient_df = patient_series.T
     # 开始预测
+    st.subheader("Probability of Survival on Proportional Hazards ")
     with open('cph.pkl', 'rb') as file:
         cph = pickle.load(file)
         survival_function_df = cph.predict_survival_function(patient_df)
@@ -257,6 +258,7 @@ elif selected_option=='Comparative Prognostic Accuracy of Proportional versus No
         # plt.xlabel("time $t$")
         # plt.legend(loc="best")
         # plt.show()
+    st.subheader("Probability of Survival on Non-Proportional Hazards ")
     with open('coxboost.pkl', 'rb') as file:
         coxboost = pickle.load(file)
         pred_surv = coxboost.predict_survival_function(patient_df)
@@ -268,7 +270,10 @@ elif selected_option=='Comparative Prognostic Accuracy of Proportional versus No
         ax.set_xlabel("time $t$")
         ax.legend(loc="best")
         st.pyplot(fig)
-
+    st.markdown('''
+    **Disclaimer:**
+    This research is currently in the laboratory phase. The findings and outcomes presented are preliminary and have not been subjected to the rigorous testing and validation required for clinical application. The use of the information, techniques, or products described herein is at the user's own risk. It is imperative that any potential clinical application be preceded by thorough scientific evaluation and regulatory approval. The authors and affiliated institutions assume no liability for any adverse consequences resulting from the use of the information provided.
+    ''')
 elif selected_option == 'radiomics Comming soon':
 
     st.write(f"comming soon...")
