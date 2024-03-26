@@ -118,6 +118,9 @@ if selected_option == 'Nomogram Models for Prognostic Prediction in Gastric Gast
         css_10 = cph_css.predict_survival_function(css_df).loc[120]
 
     #输出结果
+    image_file = "seer1.jpg"
+    st.image(image_file, caption='GraphicalAbstract', use_column_width=True)
+    
     st.subheader("OS cox nomograms at six-time points: ")
     st.write(f"Half a Year ： {str(os_half.values)}")
     st.write(f"One Year ： {os_1.values}")
