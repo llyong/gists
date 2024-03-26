@@ -4,6 +4,6 @@ pandas
 pydeck
 streamlit
 lifelines
-sksurv
+scikit-survival
 torch
 pycox
