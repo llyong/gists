@@ -182,8 +182,8 @@ elif selected_option=='Comparative Prognostic Accuracy of Proportional versus No
         time_points = np.arange(1, 251)
         for i, surv_func in enumerate(pred_surv):
             ax.step(time_points, surv_func(time_points), where="post", label="Non-Proportional Hazards",color='#0072BD')
-        ax.ylabel(r"Probability of Survival $\hat{S}(t)$")
-        ax.xlabel("time $t$")
+        ax.set_ylabel(r"Probability of Survival $\hat{S}(t)$")
+        ax.set_xlabel("time $t$")
         ax.legend(loc="best")
         st.pyplot(fig)
 
