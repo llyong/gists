@@ -208,7 +208,7 @@ elif selected_option=='Comparative Prognostic Accuracy of Proportional versus No
         Regional_nodes_examined_bigger_4 = True
     else:
         Regional_nodes_examined_bigger_4 = False
-    st.write(f"comming soon...")
+
     # # 这个版本的pycox似乎有问题，笔记本可以，云端不行
     # tt = np.array([[0.57872546, 0.        , 0.        , 1.        , 0.        ,
     #    1.        , 0.        , 1.        , 1.        , 0.        ]], dtype=np.float32)
