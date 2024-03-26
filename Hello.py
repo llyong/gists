@@ -4,6 +4,7 @@
 # 2024-2-27 这次部署，还是通过重新new一次才可以，回头研究一下
 import streamlit as st
 import pandas as pd
+import numpy as np
 #from joblib import load #python3.11不支持
 # from lifelines import CoxPHFitter
 import pickle
