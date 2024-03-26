@@ -185,7 +185,7 @@ elif selected_option=='Comparative Prognostic Accuracy of Proportional versus No
         plt.legend(loc="best")
 
 elif selected_option == 'radiomics Comming soon':
-    from pandas.core.indexes.numeric import *
+
     st.write(f"comming soon...")
 
 # elif selected_option == 'Pie Chart':
