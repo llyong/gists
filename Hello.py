@@ -140,6 +140,74 @@ if selected_option == 'Nomogram Models for Prognostic Prediction in Gastric Gast
     This research is currently in the laboratory phase. The findings and outcomes presented are preliminary and have not been subjected to the rigorous testing and validation required for clinical application. The use of the information, techniques, or products described herein is at the user's own risk. It is imperative that any potential clinical application be preceded by thorough scientific evaluation and regulatory approval. The authors and affiliated institutions assume no liability for any adverse consequences resulting from the use of the information provided.
     ''')
 elif selected_option=='Comparative Prognostic Accuracy of Proportional versus Non-Proportional Hazards Models in Gastric Gastrointestinal Stromal Tumors: From Traditional Statistics to Deep Learning':
+    
+    st.header("Please enter your information: ")
+ 
+    # 类别型
+    Sex = st.selectbox("Sex", options=["Female", "Male"])
+    Race = st.selectbox("Race", options=["Black", "White","Others"])
+    Marital_status_at_diagnosis = st.selectbox("Marital status at diagnosis", options=["Single", "Married"])
+    Tumor_grade = st.selectbox("Tumor grade", options=["Well/moderately differentiated", "Poorly differentiated/undifferentiated"])
+    Tumor_size = st.selectbox("Tumor size", options=["≤2 cm", "2-5cm","5-10cm",">10cm"])
+    AJCC_Stage = st.selectbox("AJCC Stage", options=["Ⅰ","Ⅱ","Ⅲ","Ⅳ"])
+    Surgery = st.selectbox("Surgery", options=["No Surgery", "Local excision","Radical excision"])
+    Regional_nodes_examined = st.selectbox("Regional nodes examined", options=["0", "1-4",">4"])
+    # 数值型
+    Age_at_diagnosis = st.number_input("Age at diagnosis", min_value=20)
+    
+    # 模型输入判决赋值
+    #年龄
+    Age_at_diagnosis = Age_at_diagnosis
+    #性别
+    if Sex == 'Male':
+        Sex_Male = True
+    else:
+        Sex_Male = False
+    # 种族
+    if Race == 'Black':
+        Race_Black = True
+    else:
+        Race_Black = False
+    #
+    if Marital_status_at_diagnosis == "Single":
+        Marital_status_at_diagnosis_Single = True
+    else:
+        Marital_status_at_diagnosis_Single = False
+    #
+    if Tumor_grade == "Poorly differentiated/undifferentiated":
+        Tumor_grade_Poorly_differentiated_undifferentiated = True
+    else:
+        Tumor_grade_Poorly_differentiated_undifferentiated = False
+    #
+    if Tumor_size == "5-10cm":
+        Tumor_size_5_10cm = True
+        Tumor_size_bigger_10cm = False
+    elif Tumor_size == ">10cm":
+        Tumor_size_bigger_10cm = True
+        Tumor_size_5_10cm = False
+    else:
+        Tumor_size_5_10cm = False
+        Tumor_size_bigger_10cm = False
+    #
+    if AJCC_Stage == "Ⅲ":
+        AJCC_Stage_3 = True
+        AJCC_Stage_4 = False
+    elif AJCC_Stage == "Ⅳ":
+        AJCC_Stage_4 = True
+        AJCC_Stage_3 = False
+    else:
+        AJCC_Stage_3 = False
+        AJCC_Stage_4 = False
+    #
+    if Surgery == "No Surgery":
+        Surgery_NoSurgery = True
+    else:
+        Surgery_NoSurgery = False
+    # 这个只有css有
+    if Regional_nodes_examined == ">4":
+        Regional_nodes_examined_bigger_4 = True
+    else:
+        Regional_nodes_examined_bigger_4 = False
     st.write(f"comming soon...")
     # # 这个版本的pycox似乎有问题，笔记本可以，云端不行
     # tt = np.array([[0.57872546, 0.        , 0.        , 1.        , 0.        ,
@@ -155,16 +223,16 @@ elif selected_option=='Comparative Prognostic Accuracy of Proportional versus No
     # 下面暂时用coxph做一个展示，后续排查之后再把其余加上去，ps：另外rsf由于pickle文件过大无法上传，后续部署个人服务器会加上
     # 你提供的字典
     patient_data = {
-        'Sex_Male': 1,
-        'Race_Black': 0,
-        'Marital_status_at_diagnosis_Single': 1,
-        'Tumor_size_5_10cm': 0,
-        'Tumor_size_bigger_10cm': 0,
-        'AJCC_Stage_III': 0,
-        'AJCC_Stage_IV': 0,
-        'Surgery_NoSurgery': 1,
-        'Regional_nodes_examined_bigger_4': 0,
-        'Age_at_diagnosis': 79,
+        'Sex_Male': Sex_Male,
+        'Race_Black': Race_Black,
+        'Marital_status_at_diagnosis_Single': Marital_status_at_diagnosis_Single,
+        'Tumor_size_5_10cm': Tumor_size_5_10cm,
+        'Tumor_size_bigger_10cm':Tumor_size_bigger_10cm0,
+        'AJCC_Stage_III': AJCC_Stage_3,
+        'AJCC_Stage_IV': AJCC_Stage_4,
+        'Surgery_NoSurgery': Surgery_NoSurgery,
+        'Regional_nodes_examined_bigger_4': Regional_nodes_examined_bigger_4,
+        'Age_at_diagnosis': Age_at_diagnosis,
     }
     # 将字典转换为pandas Series然后为dataframe
     patient_series = (pd.Series(patient_data)).to_frame()
