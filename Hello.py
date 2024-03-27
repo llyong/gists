@@ -248,7 +248,7 @@ elif selected_option=='Comparative Prognostic Accuracy of Proportional versus No
         survival_function_df.plot(ax=ax, color='#FF8C00')
 
         ax.set_ylabel(r"Probability of Survival $\hat{S}(t)$")
-        ax.set_xlabel("time $t$")
+        ax.set_xlabel("time $t$ (months)")
         ax.legend(loc="best")
 
         st.pyplot(fig)
@@ -268,7 +268,7 @@ elif selected_option=='Comparative Prognostic Accuracy of Proportional versus No
         for i, surv_func in enumerate(pred_surv):
             ax.step(time_points, surv_func(time_points), where="post", label="Non-Proportional Hazards",color='#0072BD')
         ax.set_ylabel(r"Probability of Survival $\hat{S}(t)$")
-        ax.set_xlabel("time $t$")
+        ax.set_xlabel("time $t$ (months)")
         ax.legend(loc="best")
         st.pyplot(fig)
     st.markdown('''
