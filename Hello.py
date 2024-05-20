@@ -23,6 +23,9 @@ selected_option = st.sidebar.radio('Select the Research Paper:', options) #直�
 # 根据选择展示不同的图表
 if selected_option == 'Evaluating Nomogram Models for Predicting Survival Outcomes in Gastric Gastrointestinal Stromal Tumors with SEER Database Analysis':
     image_file = "seer1.jpg"
+    st.header("Title: Evaluating nomogram models for predicting survival outcomes in gastric gastrointestinal stromal tumors with SEER database analysis ")
+    st.header("DOI: 10.1038/s41598-024-62353-z")
+    
     st.image(image_file, caption='GraphicalAbstract', use_column_width=True)
     
     st.header("Please enter your information: ")
