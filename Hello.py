@@ -26,7 +26,7 @@ if selected_option == 'Evaluating Nomogram Models for Predicting Survival Outcom
     st.header("Title: Evaluating nomogram models for predicting survival outcomes in gastric gastrointestinal stromal tumors with SEER database analysis ")
     st.header("DOI: 10.1038/s41598-024-62353-z")
     
-    # st.image(image_file, caption='GraphicalAbstract', use_column_width=True) # seer2录用后一起展示
+    st.image(image_file, caption='GraphicalAbstract', use_column_width=True)
     
     st.header("Please enter your information: ")
  
