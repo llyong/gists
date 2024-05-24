@@ -153,7 +153,7 @@ elif selected_option=='Comparative Prognostic Accuracy of Proportional versus No
     tab1, tab2, tab3, tab4 = st.tabs(["Article Overview","Information input","Proportional Hazards Model","Non-Proportional Hazards Model"])
 
     with tab1:
-        st.image('seer2.png', width=526)
+        st.image('seer2.png', width=1000)
     with tab2:
         st.header("Please enter your information: ")
  
