@@ -293,7 +293,7 @@ elif selected_option=='Comparative Prognostic Accuracy of Proportional versus No
         st.header("Please enter your information: ")
 
         # 类别型
-        Sex = st.selectbox("Sex", options=["Female", "Male"])
+        Sex1 = st.selectbox("Sex", options=["Female", "Male"])
         Race = st.selectbox("Race", options=["Black", "White","Others"])
         Marital_status_at_diagnosis = st.selectbox("Marital status at diagnosis", options=["Single", "Married"])
         Tumor_grade = st.selectbox("Tumor grade", options=["Well/moderately differentiated", "Poorly differentiated/undifferentiated"])
@@ -308,7 +308,7 @@ elif selected_option=='Comparative Prognostic Accuracy of Proportional versus No
         #年龄
         Age_at_diagnosis = Age_at_diagnosis
         #性别
-        if Sex == 'Male':
+        if Sex1 == 'Male':
             Sex_Male = True
         else:
             Sex_Male = False
