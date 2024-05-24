@@ -24,7 +24,7 @@ selected_option = st.sidebar.radio('Select the Research Paper:', options) #ç›´æŽ
 if selected_option == 'Evaluating Nomogram Models for Predicting Survival Outcomes in Gastric Gastrointestinal Stromal Tumors with SEER Database Analysis':
     image_file = "seer1.jpg"
     st.header("Title: Evaluating nomogram models for predicting survival outcomes in gastric gastrointestinal stromal tumors with SEER database analysis ")
-    url = https://pubmed.ncbi.nlm.nih.gov/38769376/
+    url = "https://pubmed.ncbi.nlm.nih.gov/38769376/"
     text_to_display = "DOI: 10.1038/s41598-024-62353-z"
     st.markdown(f"[{text_to_display}]({url})", unsafe_allow_html=True)
     
