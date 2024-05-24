@@ -144,6 +144,13 @@ if selected_option == 'Evaluating Nomogram Models for Predicting Survival Outcom
     This research is currently in the laboratory phase. The findings and outcomes presented are preliminary and have not been subjected to the rigorous testing and validation required for clinical application. The use of the information, techniques, or products described herein is at the user's own risk. It is imperative that any potential clinical application be preceded by thorough scientific evaluation and regulatory approval. The authors and affiliated institutions assume no liability for any adverse consequences resulting from the use of the information provided.
     ''')
 elif selected_option=='Comparative Prognostic Accuracy of Proportional versus Non-Proportional Hazards Models in Gastric Gastrointestinal Stromal Tumors: From Traditional Statistics to Deep Learning':
+    # 这里分三页
+
+    st.title("Comparative Prognostic Accuracy of Proportional versus Non-Proportional Hazards Models in Gastric Gastrointestinal Stromal Tumors: From Traditional Statistics to Deep Learning")
+    tab1, tab2, tab3 = st.tabs(["Article Overview","Proportional Hazards Model","Non-Proportional Hazards Model"])
+
+    with tab1:
+        st.image('seer2.png')
     
     st.header("Please enter your information: ")
  
