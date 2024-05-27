@@ -313,7 +313,7 @@ elif selected_option=='Comparative Prognostic Accuracy of Proportional versus No
         ''')
     with tab5:
         #代码展示
-        st.image('seer23.jpg')
+        st.image('seer23.jpg',caption='Schematic diagram of code and article correspondence')
         st.subheader('DataPreprocessing')
         # st.code('''''',language='python',line_numbers=True)
         st.code('''# Perform KM (Kaplan-Meier) analysis based on the raw data obtained from the SEER database
