@@ -314,6 +314,7 @@ elif selected_option=='Comparative Prognostic Accuracy of Proportional versus No
     with tab5:
         #代码展示
         st.subheader('DataPreprocessing')
+        # st.code('''''',language='python',line_numbers=True)
         st.code('''# Perform KM (Kaplan-Meier) analysis based on the raw data obtained from the SEER database
 
 import pandas as pd
@@ -331,6 +332,173 @@ all_features = ['Age at diagnosis (years)', 'Sex', 'Race',
        'Regional nodes examined', 'Chemotherapy']
 y_labels=['Survival (months)','COD'] # In COD (Cause of Death), death is represented as True, while still alive is represented as False.''',language='python',line_numbers=True)
 
+        st.code('''# KM plot for binary categorical variables
+
+def bin_km(key,value):
+    column = key
+    features = value
+    
+    plt.figure() 
+
+    for treatment_type in features:
+        mask_treat = df_css[column] == treatment_type
+        time_treatment, survival_prob_treatment, conf_int = kaplan_meier_estimator(
+            df_css["COD"][mask_treat],
+            df_css["Survival (months)"][mask_treat],
+            conf_type="log-log",
+        )
+        
+        plt.step(time_treatment, survival_prob_treatment, where="post", label=f"{column}= {treatment_type}")
+        plt.fill_between(time_treatment, conf_int[0], conf_int[1], alpha=0.25, step="post")
+
+    durations_A = df_css["Survival (months)"][df_css[column] == features[0]]
+    durations_B = df_css["Survival (months)"][df_css[column] == features[1]]
+    event_observed_A = df_css["COD"][df_css[column] == features[0]]
+    event_observed_B = df_css["COD"][df_css[column] == features[1]]
+
+#     result = logrank_test(durations_A,durations_B,event_observed_A,event_observed_B)
+#     result_p = result.p_value
+#     result_tex = '%.2f'%result_p
+
+    plt.ylim(0, 1)
+    plt.ylabel("GIST specific survival")
+    plt.xlabel("months")
+#     plt.annotate(f'p-value = {result_tex}', xy=(25, 0.3)) # Plot p-values and positions
+    plt.legend(loc="best")
+    plt.savefig(f'figs/bin_{key}.pdf',bbox_inches='tight',dpi=300)
+    
+    
+# KM plot for multiclass categorical variables
+def multi_km(key,value):
+    column = key
+    features = value
+    plt.figure()
+    
+    for treatment_type in features:
+        mask_treat = df_css[column] == treatment_type
+        time_treatment, survival_prob_treatment, conf_int = kaplan_meier_estimator(
+            df_css["COD"][mask_treat],
+            df_css["Survival (months)"][mask_treat],
+            conf_type="log-log",
+        )
+
+        plt.step(time_treatment, survival_prob_treatment, where="post", label=f"{column}= {treatment_type}")
+        plt.fill_between(time_treatment, conf_int[0], conf_int[1], alpha=0.25, step="post")
+
+
+    event_durations = df_css["Survival (months)"]
+    groups = df_css[column].map(lambda i: i in features) # Check if the value is within the features list
+    event_observed = df_css["COD"]
+
+#     results = multivariate_logrank_test(event_durations,groups,event_observed) #multiclass categorical variables
+#     result_p = result.p_value
+#     result_tex = '%.2f'%result_p
+
+    plt.ylim(0, 1)
+    plt.ylabel("GIST specific survival")
+    plt.xlabel("months")
+#     plt.annotate(f'p-value = {result_tex}', xy=(25, 0.3)) # Plot p-values and positions
+    plt.legend(loc="best")
+
+    plt.savefig(f'figs/multi_{key}.pdf',bbox_inches='tight',dpi=300)''',language='python',line_numbers=True)
+        st.code('''# Integrate the column vector feature names and the specific value ranges contained in features into a dictionary format.
+
+bin_dict = {'Sex':[ "Female", "Male"],'Marital status at diagnosis':[ "Married", "Single"],'Tumor grade':[ "Well/moderately differentiated", "Poorly differentiated/undifferentiated"],'Mitotic rate': [">5/5mm2 HP", "≤5/5mm2 HPF"],'Chemotherapy': ["No/Unknown", "Yes"]}
+multi_dict = {'Race': ["White", "Black",'others'], 'Tumor location': ['Antrum and Pylorus','Body','Fundus', 'Cardia'], 'Tumor size': ['≤2 cm', '>10cm', '2-5cm', '5-10cm'], 'AJCC Stage': ['Ⅱ' ,'Ⅳ', 'Ⅰ' , 'Ⅲ'], 'Surgery': ['Radical excision','No Surgery', 'Local excision'], 'Regional nodes examined': [0, '>4','1-4']}
+
+import matplotlib.pyplot as plt
+from sksurv.nonparametric import kaplan_meier_estimator
+# Times New Roman
+plt.rcParams['font.sans-serif'] = ['Times New Roman']
+plt.rcParams['axes.unicode_minus'] = False
+
+for key,value in bin_dict.items():
+    bin_km(key,value)
+for key,value in multi_dict.items():
+    multi_km(key,value)
+''',language='python',line_numbers=True)
+        st.code('''# Replace spaces in the column names of the raw data with underscores and remove parentheses.
+# Import the data, with missing values represented by NaN
+import pandas as pd
+import numpy as np
+
+df_os = pd.read_excel('seerdata4paper2os.xlsx') 
+df_css = pd.read_excel('seerdata4paper2css.xlsx') 
+
+# Remove unused columns
+df_os = df_os.drop(columns=['Unnamed: 0','Survival_months','COD to site recode ICD-O-3 2023 Revision','COD'])
+df_css = df_css.drop(columns=['Unnamed: 0','Survival_months','COD to site recode ICD-O-3 2023 Revision','COD'])
+
+# Set categorical features' data as category
+nan_cols = ['Sex', 'Race',
+       'Marital_status_at_diagnosis', 'Tumor_location', 'Tumor_grade',
+       'Tumor_size', 'AJCC_Stage', 'Mitotic_rate', 'Surgery',
+       'Regional_nodes_examined', 'Chemotherapy']
+for col in nan_cols:
+    df_os[col] = df_os[col].astype('category')
+    df_css[col] = df_css[col].astype('category')
+
+# Categories are mapped to numbers - append 0 to the file suffix
+df_os0 = df_os.copy(deep=True)
+df_css0 = df_css.copy(deep=True)
+for data in [df_os0,df_css0]:
+    data['Sex']=data['Sex'].map({'Female':0,'Male':1})
+    data['Race']=data['Race'].map({'others':0,'White':1,'Black':2})
+    data['Marital_status_at_diagnosis']=data['Marital_status_at_diagnosis'].map({'Single':0,'Married':1})
+    data['Tumor_location']=data['Tumor_location'].map({'Cardia':0,'Fundus':0,'Body':1,'Antrum and Pylorus':2})
+    data['Tumor_grade']=data['Tumor_grade'].map({'Well/moderately differentiated':0,'Poorly differentiated/undifferentiated':1})
+    data['Tumor_size']=data['Tumor_size'].map({'≤2 cm':0,'2-5cm':1,'5-10cm':2,'>10cm':3})
+    data['AJCC_Stage']=data['AJCC_Stage'].map({'Ⅰ':0,'Ⅱ':1,'Ⅲ':2,'Ⅳ':3})
+    data['Mitotic_rate']=data['Mitotic_rate'].map({'≤5/5mm2 HPF':0,'>5/5mm2 HP':1})
+    data['Surgery']=data['Surgery'].map({'No Surgery':0,'Local excision':1,'Radical excision':2})
+    data['Regional_nodes_examined']=data['Regional_nodes_examined'].map({0:0,'1-4':1,'>4':2})
+    data['Chemotherapy']=data['Chemotherapy'].map({'No/Unknown':0,'Yes':1})
+
+# The Tumor_location category has been changed and needs to be reset as category
+col = 'Tumor_location'
+df_os0[col] = df_os0[col].astype('category')
+df_css0[col] = df_css0[col].astype('category')
+df_css0.dtypes''',language='python',line_numbers=True)
+        st.code('''# Use MICE with catboost for missing value imputation, make sure to import misscatboosts first
+# https://github.com/llyong/MissCatboosts
+from misscatboosts.misscatboosts import MissCatboosts
+
+mc = MissCatboosts()
+data_imputed = mc.fit_transform(
+    X=df_css0,
+    categorical=["sex", "Race", "Marital_status_at_diagnosis","Tumor_location","Tumor_grade",
+                 "Tumor_size","AJCC_Stage","Mitotic_rate","Surgery","Regional_nodes_examined","Chemotherapy"]
+)
+''',language='python',line_numbers=True)
+        st.code('''# Convert numerical variables to categorical
+column_names = ['Age_at_diagnosis', 'Sex', 'Race', 'Marital_status_at_diagnosis',
+       'Tumor_location', 'Tumor_grade', 'Tumor_size', 'AJCC_Stage',
+       'Mitotic_rate', 'Surgery', 'Regional_nodes_examined', 'Chemotherapy'] 
+df_css0_complete =  pd.DataFrame(data_imputed,columns = column_names)
+
+
+for data in [df_css0_complete]:
+    data['Sex']=data['Sex'].map({0:'Female',1:'Male'})
+    data['Race']=data['Race'].map({0:'others',1:'White',2:'Black'})
+    data['Marital_status_at_diagnosis']=data['Marital_status_at_diagnosis'].map({0:'Single',1:'Married'})
+    data['Tumor_location']=data['Tumor_location'].map({0:'Cardia_Fundus',1:'Body',2:'Antrum_Pylorus'})
+    data['Tumor_grade']=data['Tumor_grade'].map({0:'Well_moderately_differentiated',1:'Poorly_differentiated_undifferentiated'})
+    data['Tumor_size']=data['Tumor_size'].map({0:'smaller_2cm',1:'2_5cm',2:'5_10cm',3:'bigger_10cm'})
+    data['AJCC_Stage']=data['AJCC_Stage'].map({0:1,1:2,2:3,3:4})
+    data['Mitotic_rate']=data['Mitotic_rate'].map({0:'smaller_5HPF',1:'bigger_5HPF'})
+    data['Surgery']=data['Surgery'].map({0:'NoSurgery',1:'Local_excision',2:'Radical_excision'})
+    data['Regional_nodes_examined']=data['Regional_nodes_examined'].map({0:0,1:'1to4',2:'bigger_4'})
+    data['Chemotherapy']=data['Chemotherapy'].map({0:'No_Unknown',1:'Yes'})
+
+df_css0_complete['Survival_months'] = df_css['Survival_months']
+df_css0_complete['COD'] = df_css['COD']
+df_css0_complete.to_csv('df_css0_complete_11.csv',index=False) 
+''',language='python',line_numbers=True)
+        st.code('''''',language='python',line_numbers=True)
+        st.code('''''',language='python',line_numbers=True)
+        st.code('''''',language='python',line_numbers=True)
+        st.code('''''',language='python',line_numbers=True)
+        st.code('''''',language='python',line_numbers=True)
 
         
 
