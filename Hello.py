@@ -150,7 +150,7 @@ if selected_option == 'Evaluating Nomogram Models for Predicting Survival Outcom
 elif selected_option=='Comparative Prognostic Accuracy of Proportional versus Non-Proportional Hazards Models in Gastric Gastrointestinal Stromal Tumors: From Traditional Statistics to Deep Learning':
     # 这里分三页
 
-    st.title("Comparative Prognostic Accuracy of Proportional versus Non-Proportional Hazards Models in Gastric Gastrointestinal Stromal Tumors: From Traditional Statistics to Deep Learning")
+    st.title(":apple: Comparative Prognostic Accuracy of Proportional versus Non-Proportional Hazards Models in Gastric Gastrointestinal Stromal Tumors: From Traditional Statistics to Deep Learning")
     tab1, tab2, tab3, tab4 = st.tabs(["Article Overview","Information input","Proportional Hazards Model","Non-Proportional Hazards Model"])
 
     with tab1:
