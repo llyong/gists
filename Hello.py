@@ -156,7 +156,7 @@ elif selected_option=='Comparative Prognostic Accuracy of Proportional versus No
     with tab1:
         st.image('seer2.png', width=876)
     with tab2:
-        st.header("Please enter your information: ")
+        st.header("Please enter the information, and the real-time results will be displayed on the 'Proportional Hazards Model' and 'Non-Proportional Hazards Model' page : ")
  
         # 类别型
         Sex = st.selectbox("Sex", options=["Female", "Male"])
