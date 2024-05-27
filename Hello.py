@@ -495,9 +495,16 @@ df_css0_complete['Survival_months'] = df_css['Survival_months']
 df_css0_complete['COD'] = df_css['COD']
 df_css0_complete.to_csv('df_css0_complete_11.csv',index=False) 
 ''',language='python',line_numbers=True)
+        st.subheader('Training And Testing Sets')
         st.code('''''',language='python',line_numbers=True)
         st.code('''''',language='python',line_numbers=True)
+        st.subheader('Univariate And Multivariate Analysis')
         st.code('''''',language='python',line_numbers=True)
+        st.code('''''',language='python',line_numbers=True)
+        st.subheader('Model Training And Evaluation')
+        st.code('''''',language='python',line_numbers=True)
+        st.code('''''',language='python',line_numbers=True)
+        st.subheader('Model Saving And Deployment')
         st.code('''''',language='python',line_numbers=True)
         st.code('''''',language='python',line_numbers=True)
 
