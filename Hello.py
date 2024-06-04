@@ -829,16 +829,309 @@ table3.to_excel('seer2_css.xlsx')
 
 table3''',language='python',line_numbers=True)
         st.code('''''',language='python',line_numbers=True)
-        st.code('''''',language='python',line_numbers=True)
-        st.code('''''',language='python',line_numbers=True)
-        st.code('''''',language='python',line_numbers=True)
-        st.code('''''',language='python',line_numbers=True)
+
         
         st.subheader('Model Training And Evaluation')
+        st.code('''import pandas as pd
+df_css0_complete_11=pd.read_csv('df_css0_complete_11.csv') 
+
+drop_features = ['Sex_Male', 'Race_White','Marital_status_at_diagnosis_Married','Tumor_location_Antrum_Pylorus',
+       'Tumor_grade_Well_moderately_differentiated', 'Tumor_size_smaller_2cm',
+        'AJCC_Stage_I', 'Mitotic_rate_smaller_5HPF', 'Surgery_Local_excision', 
+        'Regional_nodes_examined_0', 'Chemotherapy_Yes'] 
+# age_mean 
+mean = df_css0_complete_11['Age_at_diagnosis'].mean() 
+print('年龄的均值：',mean)
+# age_std
+std = df_css0_complete_11['Age_at_diagnosis'].std() 
+print('年龄的标准差：',std)''',language='python',line_numbers=True)
+        st.code('''from lifelines import CoxPHFitter
+from lifelines import WeibullAFTFitter
+from sksurv.ensemble import RandomSurvivalForest
+from sksurv.ensemble import GradientBoostingSurvivalAnalysis
+from sksurv.util import Surv
+from sksurv.metrics import (
+    concordance_index_censored,
+    integrated_brier_score,
+)
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.preprocessing import StandardScaler
+from sklearn_pandas import DataFrameMapper
+
+import torch
+import torchtuples as tt
+
+from pycox.models import CoxPH
+from pycox.models import CoxCC
+from pycox.models import CoxTime
+from pycox.models.cox_time import MLPVanillaCoxTime
+
+from pycox.evaluation import EvalSurv
+np.random.seed(1234)
+_ = torch.manual_seed(123)
+
+
+
+
+def multi_models(data,cols_standardize,cols_leave): 
+
+#     For each model, the input Xy is considered, where X has undergone feature selection and dummy variable processing, and also includes a label column.
+
+    train_df = data[data['label']=='train']
+    train_df = train_df.drop(columns=['label']) 
+    test_df = data[data['label']=='test']
+    test_df = test_df.drop(columns=['label']) 
+
+    cph = CoxPHFitter()
+    cph.fit(df=train_df,duration_col='Survival_months',event_col='COD',show_progress=False)
+    aft = WeibullAFTFitter()
+    aft.fit(df=train_df,duration_col='Survival_months',event_col='COD',show_progress=False)
+
+    print('cox的训练集：',cph.score(train_df,scoring_method='concordance_index'))
+    print('cox的测试集：',cph.score(test_df,scoring_method='concordance_index'))
+    print('aft的训练集：',aft.score(train_df,scoring_method='concordance_index'))
+    print('aft的测试集：',aft.score(test_df,scoring_method='concordance_index'))    
+    cox_train.append(cph.score(train_df,scoring_method='concordance_index'))
+    cox_test.append(cph.score(test_df,scoring_method='concordance_index'))
+    aft_train.append(aft.score(train_df,scoring_method='concordance_index'))
+    aft_test.append(aft.score(test_df,scoring_method='concordance_index'))
+
+    y_train_ = Surv.from_dataframe(
+    event='event', 
+    time='time', 
+    data=train_df.rename(columns={'COD':'event','Survival_months':'time'}))
+
+    X_train = train_df.iloc[:,:-2]
+    
+    y_test_ = Surv.from_dataframe(
+    event='event', 
+    time='time', 
+    data=test_df.rename(columns={'COD':'event','Survival_months':'time'}))
+
+    X_test = test_df.iloc[:,:-2]
+
+    
+# Optimize hyperparameters of the random forest model on the training set.
+# from sklearn.model_selection import GridSearchCV, KFold
+# from sksurv.metrics import as_concordance_index_ipcw_scorer
+# rsf = RandomSurvivalForest(random_state=0)
+# # n_estimators=1000,
+# #                            min_samples_split=10,
+# #                            min_samples_leaf=15,
+# #                            max_features="sqrt",
+# #                            n_jobs=-1,
+# #                            
+
+# cv = KFold(n_splits=5, shuffle=True, random_state=1)
+
+# parameters = {
+#     'estimator__max_depth':[10,15],
+#     'estimator__min_samples_split':[3], 
+#     'estimator__min_samples_leaf':[20],
+#     'estimator__n_estimators':[500],
+#     'estimator__max_features':['sqrt'],
+    
+# }
+# gscv = GridSearchCV(
+#     as_concordance_index_ipcw_scorer(rsf),
+#     param_grid=parameters,
+#     cv=cv,
+#     n_jobs=-1,
+# )
+
+# gscv.fit(X_train, y_train_) 
+# display(gscv.best_params_)
+    
+    
+#     rsf = RandomSurvivalForest(n_estimators=1000,
+#                            min_samples_split=10,
+#                            min_samples_leaf=15,
+#                            max_features="sqrt",
+#                            n_jobs=-1,
+#                            random_state=0)
+
+    rsf = RandomSurvivalForest(n_estimators=500,
+                           min_samples_split=3,
+                           min_samples_leaf=20,
+                           max_features="sqrt",
+                           max_depth=10,
+                           n_jobs=-1,
+                           random_state=0)
+    rsf.fit(X_train, y_train_)
+    coxboost =  GradientBoostingSurvivalAnalysis()
+    coxboost.fit(X_train, y_train_)
+
+    print('rsf的训练集：',rsf.score(X_train,y_train_))
+    print('rsf的测试集：',rsf.score(X_test,y_test_))
+    print('coxboost的训练集：',coxboost.score(X_train,y_train_))
+    print('coxboost的测试集：',coxboost.score(X_test,y_test_))
+    rsf_train.append(rsf.score(X_train,y_train_))
+    rsf_test.append(rsf.score(X_test,y_test_))
+    coxboost_train.append(coxboost.score(X_train,y_train_))
+    coxboost_test.append(coxboost.score(X_test,y_test_))
+
+#     print(train_df.columns)
+#     print(cols_standardize)
+#     print(cols_leave) 
+#     print(cols_leave.append(pd.Index([cols_standardize])))
+
+    X_train[cols_standardize] = (X_train[cols_standardize] - mean) / std  
+    X_test[cols_standardize] = (X_test[cols_standardize] - mean) / std
+    X_train = train_df[cols_leave.append(pd.Index([cols_standardize]))].values.astype('float32') 
+    X_test = test_df[cols_leave.append(pd.Index([cols_standardize]))].values.astype('float32') 
+
+    
+    get_target = lambda df: (df['Survival_months'].values, df['COD'].values)
+    y_train = get_target(train_df)
+    y_test = get_target(test_df)
+    
+    val = X_test,y_test
+    
+    # ######################  deepph  #######################
+    # mlp
+    in_features = X_train.shape[1]
+    num_nodes = [32,32,32,32,32,32] #[32,32]
+    out_features = 1
+    batch_norm = True
+    dropout = 0.1
+    output_bias = False
+
+    net = tt.practical.MLPVanilla(in_features, num_nodes, out_features, batch_norm,
+                                  dropout, output_bias=output_bias)
+    optimizer = tt.optim.AdamWR(lr=0.001)
+
+    deepph = CoxPH(net, optimizer)
+
+    batch_size = 512
+#     print(X_train.shape)
+#     print(X_train.columns)
+#     print(np.array(y_train).shape)
+    lrfinder = deepph.lr_finder(X_train, y_train, batch_size, tolerance=10) 
+    deepph.optimizer.set_lr(lrfinder.get_best_lr()) 
+    epochs = 512
+    callbacks = [tt.callbacks.EarlyStopping()]
+    verbose = True
+    
+    log = deepph.fit(X_train, y_train, batch_size, epochs, callbacks, verbose,
+                val_data=val, val_batch_size=batch_size)
+
+    _ = deepph.compute_baseline_hazards()
+    surv_deepph_train = deepph.predict_surv_df(X_train) 
+    surv_deepph_test = deepph.predict_surv_df(X_test)
+    
+    durations_train = y_train[0]
+    events_train = y_train[1]
+    durations_test = y_test[0]
+    events_test = y_test[1]
+
+    ev_train = EvalSurv(surv_deepph_train, durations_train, events_train, censor_surv='km') 
+    ev_test = EvalSurv(surv_deepph_test, durations_test, events_test, censor_surv='km') 
+    
+    print('deepph训练集:',ev_train.concordance_td())
+    print('deepph测试集:',ev_test.concordance_td())
+    deepph_train.append(ev_train.concordance_td())
+    deepph_test.append(ev_test.concordance_td())
+
+    #  ######################  deepnoph  #######################
+    
+    
+#     X_train[cols_standardize] = (X_train[cols_standardize] - mean) / std  
+#     X_test[cols_standardize] = (X_test[cols_standardize] - mean) / std
+#     X_train = train_df[cols_leave.append(pd.Index([cols_standardize]))].values.astype('float32') 
+#     X_test = test_df[cols_leave.append(pd.Index([cols_standardize]))].values.astype('float32') 
+
+    labtrans = CoxTime.label_transform() 
+    get_target = lambda df: (df['Survival_months'].values, df['COD'].values)
+    y_train = labtrans.fit_transform(*get_target(train_df)) 
+    y_test = labtrans.transform(*get_target(test_df)) 
+    
+    val = X_test,y_test
+    # mlp
+    in_features = X_train.shape[1]
+    num_nodes = [32,32,32,32,32] #[32,32]
+    out_features = 1
+    batch_norm = True
+    dropout = 0.1
+    output_bias = False
+
+    net = MLPVanillaCoxTime(in_features, num_nodes, batch_norm, dropout) # MLPVanillaCoxTime
+    optimizer = tt.optim.AdamWR(lr=0.001) 
+  
+    deepnoph = CoxTime(net, optimizer) 
+
+    batch_size = 512
+    lrfinder_time = deepnoph.lr_finder(X_train, y_train, batch_size, tolerance=10) 
+    deepnoph.optimizer.set_lr(lrfinder_time.get_best_lr())
+    epochs = 512
+    callbacks = [tt.callbacks.EarlyStopping()]
+    verbose = True
+    
+    log = deepnoph.fit(X_train, y_train, batch_size, epochs, callbacks, verbose,
+                val_data=val, val_batch_size=batch_size)
+    
+    _ = deepnoph.compute_baseline_hazards()
+    surv_deepnoph_train = deepnoph.predict_surv_df(X_train) 
+    surv_deepnoph_test = deepnoph.predict_surv_df(X_test)
+    
+    durations_train = y_train[0]
+    events_train = y_train[1]
+    durations_test = y_test[0]
+    events_test = y_test[1]
+
+    ev_train_deepnoph = EvalSurv(surv_deepnoph_train, durations_train, events_train, censor_surv='km') 
+    ev_test_deepnoph = EvalSurv(surv_deepnoph_test, durations_test, events_test, censor_surv='km')
+    
+    print('deepnoph训练集:',ev_train_deepnoph.concordance_td())
+    print('deepnoph测试集:',ev_test_deepnoph.concordance_td())    
+    deepnoph_train.append(ev_train_deepnoph.concordance_td())
+    deepnoph_test.append(ev_test_deepnoph.concordance_td())''',language='python',line_numbers=True)
+        st.code('''# main()
+    
+feature_data = [features_final_cox_71,features_final_cox_72,features_final_cox_73,features_final_cox_8,features_final_cox_9,features_final_cox_10,features_final_cox_11,features_final_cox_all]
+
+RANDOM_STATE = 1
+result = pd.DataFrame()
+cox_train = []
+cox_test = []
+aft_train = []
+aft_test = []
+rsf_train = []
+rsf_test = []
+coxboost_train = []
+coxboost_test =[]
+deepph_train = []
+deepph_test = []
+deepnoph_train = []
+deepnoph_test = []
+
+for index, feature in enumerate(feature_data):
+    print(f"Iteration {index + 1}: {feature}")
+
+    cox_data = random_split(df_css0_complete_11,feature,RANDOM_STATE) 
+        
+
+    cols_standardize = 'Age_at_diagnosis'
+    cols_leave = cox_data.columns[:-4]
+    
+    multi_models(cox_data,cols_standardize,cols_leave) 
+    
+result['cox_train']=cox_train
+result['aft_train']=aft_train
+result['rsf_train']=rsf_train
+result['coxboost_train']=coxboost_train
+result['deepph_train']=deepph_train
+result['deepnoph_train']=deepnoph_train
+result['cox_test']=cox_test
+result['aft_test']=aft_test
+result['rsf_test']=rsf_test
+result['coxboost_test']=coxboost_test
+result['deepph_test']=deepph_test
+result['deepnoph_test']=deepnoph_test
+
+result.to_csv(f'result.csv') ''',language='python',line_numbers=True)
         st.code('''''',language='python',line_numbers=True)
-        st.code('''''',language='python',line_numbers=True)
-        st.code('''''',language='python',line_numbers=True)
-        st.code('''''',language='python',line_numbers=True)
+
         st.subheader('Model Saving And Deployment')
         st.code('''''',language='python',line_numbers=True)
         st.code('''''',language='python',line_numbers=True)
