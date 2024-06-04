@@ -703,10 +703,137 @@ aft.print_summary()''',language='python',line_numbers=True)
         st.code('''''',language='python',line_numbers=True)
         
         st.subheader('Training And Testing Sets')
+        st.code('''import pandas as pd
+df_css0_complete_11=pd.read_csv('df_css0_complete_11.csv') 
+
+drop_features = ['Sex_Male', 'Race_White','Marital_status_at_diagnosis_Married','Tumor_location_Antrum_Pylorus',
+       'Tumor_grade_Well_moderately_differentiated', 'Tumor_size_smaller_2cm',
+        'AJCC_Stage_I', 'Mitotic_rate_smaller_5HPF', 'Surgery_Local_excision', 
+        'Regional_nodes_examined_0', 'Chemotherapy_Yes'] 
+
+
+features_final_cox_71 = ['Age_at_diagnosis', 'Sex', 'Race', 'Tumor_size', 'AJCC_Stage', 'Surgery', 'Regional_nodes_examined']#'Marital_status_at_diagnosis',
+features_final_cox_72 = ['Age_at_diagnosis', 'Sex', 'Race', 'Marital_status_at_diagnosis', 'AJCC_Stage', 'Surgery', 'Regional_nodes_examined']#,'Tumor_size'
+features_final_cox_73 = ['Age_at_diagnosis', 'Sex', 'Race', 'Marital_status_at_diagnosis','Tumor_size', 'Surgery', 'Regional_nodes_examined']#'AJCC_Stage',
+features_final_cox_8 = ['Age_at_diagnosis', 'Sex', 'Race', 'Marital_status_at_diagnosis','Tumor_size', 'AJCC_Stage', 'Surgery', 'Regional_nodes_examined']
+features_final_cox_9 = features_final_cox_8 + ['Tumor_grade']
+features_final_cox_10 = features_final_cox_9 + ['Mitotic_rate']
+features_final_cox_11 = features_final_cox_10 + ['Chemotherapy']
+features_final_cox_all = features_final_cox_11 + ['Tumor_location']
+
+
+def random_split(data,features_list,random_state):
+    
+
+# data: Raw data that needs to be split 
+# features_list: The feature categories of the raw data. Note that 'Survival_months' and 'COD' do not need to be included. 
+# random_state: Random seed
+
+    # Select the corresponding categorical variables from the raw data; Perform dummy variable encoding/processing.
+    features_list.remove('Age_at_diagnosis')
+    data_X = data.loc[:,features_list] # Excluding age from here because categorical variables require dummy variable encoding/processing.
+    data_cat = pd.get_dummies(data_X)
+    final_features = [fea for fea in data_cat.columns if fea not in drop_features]
+    final_data = pd.concat([data_cat.loc[:,final_features],data.loc[:,['Age_at_diagnosis','Survival_months', 'COD']]],axis=1)
+    
+    # 3. Split the data into a 7:3 training set and test set, and return them. Note that we do not split the data directly here, but instead add a column labeled "label" to the dataset later.
+    train_data = final_data.sample(frac=0.7, random_state=random_state) 
+    test_data = final_data.drop(train_data.index)
+    train_data['label']='train'
+    test_data['label']='test'
+    table1_css = pd.concat([train_data,test_data],axis=0)
+    
+    return table1_css
+    
+
+
+cox_8 = random_split(df_css0_complete_11,features_final_cox_8,RANDOM_STATE) 
+
+''',language='python',line_numbers=True)
+        st.code('''from lifelines import KaplanMeierFitter
+
+%matplotlib inline
+%config InlineBackend.figure_format = 'retina'
+
+from matplotlib import pyplot as plt
+from lifelines import CoxPHFitter
+import numpy as np
+import pandas as pd
+
+# ax = plt.subplot(111)
+fig, ax = plt.subplots()  
+kmf = KaplanMeierFitter()
+
+# plt.tight_layout()
+# plt.savefig('xx.pdf',dpi=300)
+
+for name, grouped_df in cox_8.groupby('label'): 
+    kmf.fit(grouped_df["Survival_months"], grouped_df["COD"], label=name)
+    kmf.plot_survival_function(ax=ax) 
+#     plt.tight_layout()
+#     plt.savefig('km154.pdf',dpi=300)
+
+plt.grid(True)
+plt.tight_layout()
+plt.savefig('km1.pdf', dpi=300)
+plt.show()''',language='python',line_numbers=True)
+        st.code('''from lifelines import KaplanMeierFitter
+from lifelines.statistics import multivariate_logrank_test
+
+
+result = multivariate_logrank_test(cox_8['Survival_months'], cox_8['label'], cox_8['COD'])
+result.test_statistic
+result.p_value
+result.print_summary()
+
+
+# If the p-value of the Log-rank test is less than this level, then it can be considered that there is a statistically significant difference between the survival curves of the two categories.
+# If the p-value is greater than 0.05, then it indicates that there is no significant difference between the training and test sets.
+''',language='python',line_numbers=True)
+        st.code('''import pandas as pd
+df_css0_complete_11=pd.read_csv('df_css0_complete_11.csv') 
+
+# Try it without performing dummy processing, and directly use the chi-square test and U test instead.
+from tableone import TableOne
+
+train_data = df_css0_complete_11.sample(frac=0.7, random_state=RANDOM_STATE) 
+
+test_data = df_css0_complete_11.drop(train_data.index)
+
+train_data['label']='train'
+test_data['label']='test'
+
+table1_css = pd.concat([train_data,test_data],axis=0)
+
+table1_css.columns''',language='python',line_numbers=True)
+        st.code('''# All the relevant features, including the columns used for grouping (groupby).
+columns =['Age_at_diagnosis', 'Sex', 'Race', 'Marital_status_at_diagnosis',
+       'Tumor_location', 'Tumor_grade', 'Tumor_size', 'AJCC_Stage',
+       'Mitotic_rate', 'Surgery', 'Regional_nodes_examined', 'Chemotherapy','label']
+# Categorical variable
+categorical = ['Sex', 'Race', 'Marital_status_at_diagnosis',
+       'Tumor_location', 'Tumor_grade', 'Tumor_size', 'AJCC_Stage',
+       'Mitotic_rate', 'Surgery', 'Regional_nodes_examined', 'Chemotherapy']
+# For continuous variables with non-normal distribution, if not specified, it is estimated that the t-test will be automatically performed.
+nonnormal = ['Age_at_diagnosis']
+# Grouping, where the label is selected to provide the division of training and testing sets.
+groupby = ['label']
+
+
+# create grouped_table with p values
+table3 = TableOne(table1_css, columns, categorical, groupby, nonnormal, pval = True, htest_name=True)
+# view first 10 rows of tableone
+table3
+# Save to Excel
+table3.to_excel('seer2_css.xlsx')
+
+table3''',language='python',line_numbers=True)
         st.code('''''',language='python',line_numbers=True)
         st.code('''''',language='python',line_numbers=True)
         st.code('''''',language='python',line_numbers=True)
         st.code('''''',language='python',line_numbers=True)
+        st.code('''''',language='python',line_numbers=True)
+        
         st.subheader('Model Training And Evaluation')
         st.code('''''',language='python',line_numbers=True)
         st.code('''''',language='python',line_numbers=True)
