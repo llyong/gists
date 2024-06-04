@@ -1133,9 +1133,40 @@ result.to_csv(f'result.csv') ''',language='python',line_numbers=True)
         st.code('''''',language='python',line_numbers=True)
 
         st.subheader('Model Saving And Deployment')
-        st.code('''''',language='python',line_numbers=True)
-        st.code('''''',language='python',line_numbers=True)
-        st.code('''''',language='python',line_numbers=True)
+        st.code('''import pickle
+
+with open('cph.pkl', 'wb') as file:
+    pickle.dump(cph, file)
+    
+with open('aft.pkl', 'wb') as file:
+    pickle.dump(aft, file)
+    
+with open('rsf.pkl', 'wb') as file:
+    pickle.dump(rsf, file)
+    
+with open('coxboost.pkl', 'wb') as file:
+    pickle.dump(coxboost, file)
+    
+with open('deepph.pkl', 'wb') as file:
+    pickle.dump(model_ph, file)
+
+with open('deepnoph.pkl', 'wb') as file:
+    pickle.dump(model_noph, file)''',language='python',line_numbers=True)
+        st.code('''# test
+with open('cph.pkl', 'rb') as file:
+    cph = pickle.load(file)
+    aa = cph.predict_survival_function(final_data_cox.iloc[1]).loc[120] 
+    print(aa)
+    print(aa.values)''',language='python',line_numbers=True)
+        st.code('''# test-2
+with open('deepcox.pkl', 'rb') as file:
+    deepcox = pickle.load(file)
+    _ = deepcox.compute_baseline_hazards() # baseline hazards
+    surv = deepcox.predict_surv_df(tt) # surv plot
+    ax=surv.plot()
+    plt.ylabel('S(t | x)')
+    _ = plt.xlabel('Time')
+    ax.get_legend().remove''',language='python',line_numbers=True)
         st.code('''''',language='python',line_numbers=True)
 
         
