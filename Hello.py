@@ -496,10 +496,212 @@ df_css0_complete['COD'] = df_css['COD']
 df_css0_complete.to_csv('df_css0_complete_11.csv',index=False) 
 ''',language='python',line_numbers=True)
         st.subheader('Univariate And Multivariate Analysis')
+        st.code('''# Import the necessary libraries
+import pandas as pd
+import matplotlib.pyplot as plt
+plt.rc('font',family='Times New Roman')
+
+plt.rcParams['legend.fontsize'] = 18    # Font size should not be too small
+plt.rcParams['font.size'] = 18 # Adjust the number size on the x and y axes
+
+FIGSIZE = (3.5,2.5)
+%matplotlib inline
+%config InlineBackend.figure_format = 'retina'
+
+from matplotlib import pyplot as plt
+from lifelines import CoxPHFitter
+import numpy as np
+
+df_css0_complete_11=pd.read_csv('df_css0_complete_11.csv') ''',language='python',line_numbers=True)
+        st.code('''# Univariate Analysis
+# Scaled Schoenfeld residuals plots and proportional hazard test
+
+# Dummy processing
+# In the DataPreprocessing program, find the category with the lowest risk level for each variable
+
+# Perform one-hot encoding for all categories first.
+data_cat = pd.get_dummies(df_css0_complete_11.drop(columns=['Age_at_diagnosis','Survival_months', 'COD'],axis=1)) 
+data_cat
+
+# After processing the categorical variables, they are recombined with the continuous features.
+final_data = pd.concat([data_cat,df_css0_complete_11.loc[:,['Age_at_diagnosis','Survival_months', 'COD']]],axis=1)
+final_data.columns
+''',language='python',line_numbers=True)
+        st.code('''# 2. Perform Univariate Analysis after removing the reference variable.
+
+# After one-hot encoding categorical variables, the resulting features can be enclosed in square brackets again.
+col_signal_features = [['Sex_Female', 'Sex_Male'], 
+                       ['Race_Black', 'Race_White', 'Race_others'],
+                       ['Marital_status_at_diagnosis_Married','Marital_status_at_diagnosis_Single'], 
+                       ['Tumor_location_Antrum_Pylorus','Tumor_location_Body', 'Tumor_location_Cardia_Fundus'],
+                       ['Tumor_grade_Poorly_differentiated_undifferentiated','Tumor_grade_Well_moderately_differentiated'], 
+                       ['Tumor_size_2_5cm','Tumor_size_5_10cm', 'Tumor_size_bigger_10cm', 'Tumor_size_smaller_2cm'],
+                       ['AJCC_Stage_I', 'AJCC_Stage_II', 'AJCC_Stage_III', 'AJCC_Stage_IV'],
+                       ['Mitotic_rate_bigger_5HPF', 'Mitotic_rate_smaller_5HPF'],
+                       ['Surgery_Local_excision', 'Surgery_NoSurgery','Surgery_Radical_excision'], 
+                       ['Regional_nodes_examined_0','Regional_nodes_examined_1to4', 'Regional_nodes_examined_bigger_4'],
+                       ['Chemotherapy_No_Unknown', 'Chemotherapy_Yes'], 
+                       ['Age_at_diagnosis']]
+# The reference category for a variable comes from the DataPreprocessing program. 
+drop_features = ['Sex_Female', 'Race_White','Marital_status_at_diagnosis_Married','Tumor_location_Antrum_Pylorus',
+       'Tumor_grade_Well_moderately_differentiated', 'Tumor_size_smaller_2cm',
+        'AJCC_Stage_I', 'Mitotic_rate_smaller_5HPF', 'Surgery_Local_excision', 
+        'Regional_nodes_examined_0', 'Chemotherapy_Yes'] # To uniformly select the best option, which in this context means the category with the lowest risk level
+
+def f_drop_features(col_features,drop_features):
+
+    #To remove elements from col_features that exist in drop_features and return the updated list
+
+    for list_i in col_features:
+        for ele in list_i:
+            if ele in drop_features:
+                list_i.remove(ele) # remove
+            else:
+                pass
+    return col_features
+
+# The groups that require Univariate Analysis should be stored in the form of a list.
+final_signal_features = f_drop_features(col_signal_features,drop_features)
+final_signal_features''',language='python',line_numbers=True)
+        st.code('''# First, perform the fitting, and then define the residual fitting and output for each feature
+def each_Schoenfeld(data,feature):# "data" refers to a variable, whether it is a continuous variable or all categories of a categorical variable.
+    cph = CoxPHFitter()
+    cph.fit(data, 'Survival_months', 'COD')
+    cph.print_summary(model="untransformed variables", decimals=3)
+    
+    #When drawing the forest plot below, it seems to be not very smooth, as the scales below are not uniform. Therefore, it is necessary to draw another forest plot
+    fig,ax = plt.subplots(figsize=(4,6), dpi=300) #dpi=120
+    cph.plot(ax=ax)# forest plot
+    plt.tight_layout()
+    ax.grid()# grid on
+    fig.savefig(f'{feature}.pdf', dpi=200)
+    
+#     plt.figure(figsize=(5, 3))  
+    cph.check_assumptions(data, p_value_threshold=0.05, show_plots=True)# Turn off the display because we will manually save
+
+for feature in final_signal_features:
+    feature_final_data = final_data.loc[:,feature+['Survival_months', 'COD']]
+    print(feature_final_data.columns)
+    each_Schoenfeld(feature_final_data,feature)
+
+# age_final_data = final_data.loc[:,['Age_at_diagnosis','Survival_months', 'COD']]
+# cph = CoxPHFitter()
+# cph.fit(age_final_data, 'Survival_months', 'COD')
+# cph.print_summary(model="untransformed variables", decimals=3)
+# cph.check_assumptions(age_final_data, p_value_threshold=0.05, show_plots=True)''',language='python',line_numbers=True)
+        st.code('''features = final_data.columns
+final_two_features = [fea for fea in features if fea not in drop_features]
+final_two_features''',language='python',line_numbers=True)
+        st.code('''final_two_features.remove('Tumor_location_Body')
+final_two_features.remove('Tumor_location_Cardia_Fundus')
+final_two_features''',language='python',line_numbers=True)
+        st.code('''from lifelines import CoxPHFitter
+# Create a Cox regression model
+cph = CoxPHFitter()
+# Pass in the data in DataFrame format for df, the column name for time to duration_col, and the column name for events to event_col. By default, all covariates will be used
+# You can pass in partial covariates through the parameter formula='Age+Race'.
+two_data_cox = final_data.loc[:,final_two_features]
+cph.fit(df=two_data_cox,duration_col='Survival_months',event_col='COD',show_progress=True)
+# Print the model details
+cph.print_summary()''',language='python',line_numbers=True)
+        st.code('''import matplotlib.pyplot as plt
+# help(cph.plot)
+fig,ax = plt.subplots(figsize=(4,6), dpi=300)#dpi=120
+cph.plot(ax=ax)
+plt.tight_layout()
+ax.grid()
+
+fig.savefig('cox_f1.pdf', dpi=200)''',language='python',line_numbers=True)
+        st.code('''# Combination of multiple features
+features_final_cox_71 = ['Age_at_diagnosis', 'Sex', 'Race', 'Tumor_size', 'AJCC_Stage', 'Surgery', 'Regional_nodes_examined']#'Marital_status_at_diagnosis',
+features_final_cox_72 = ['Age_at_diagnosis', 'Sex', 'Race', 'Marital_status_at_diagnosis', 'AJCC_Stage', 'Surgery', 'Regional_nodes_examined']#,'Tumor_size'
+features_final_cox_73 = ['Age_at_diagnosis', 'Sex', 'Race', 'Marital_status_at_diagnosis','Tumor_size', 'Surgery', 'Regional_nodes_examined']#'AJCC_Stage',
+features_final_cox_8 = ['Age_at_diagnosis', 'Sex', 'Race', 'Marital_status_at_diagnosis','Tumor_size', 'AJCC_Stage', 'Surgery', 'Regional_nodes_examined']
+features_final_cox_9 = features_final_cox_8 + ['Tumor_grade']
+features_final_cox_10 = features_final_cox_9 + ['Mitotic_rate']
+features_final_cox_11 = features_final_cox_10 + ['Chemotherapy']
+features_final_cox_all = features_final_cox_11 + ['Tumor_location']
+
+# Tumor_grade 0.12
+# Mitotic_rate 0.95
+# Chemotherapy 1.2
+# Tumor_location''',language='python',line_numbers=True)
+        st.code('''import pandas as pd
+df_css0_complete_11=pd.read_csv('df_css0_complete_11.csv') 
+
+%matplotlib inline
+%config InlineBackend.figure_format = 'retina'
+
+from matplotlib import pyplot as plt
+from lifelines import WeibullAFTFitter
+import numpy as np
+import pandas as pd
+
+
+data_cat = pd.get_dummies(df_css0_complete_11.drop(columns=['Age_at_diagnosis','Survival_months', 'COD'],axis=1)) # String, digitization
+data_cat
+
+final_data = pd.concat([data_cat,df_css0_complete_11.loc[:,['Age_at_diagnosis','Survival_months', 'COD']]],axis=1)
+final_data.columns''',language='python',line_numbers=True)
+        st.code('''# 2
+col_signal_features = [['Sex_Female', 'Sex_Male'], 
+                       ['Race_Black', 'Race_White', 'Race_others'],
+                       ['Marital_status_at_diagnosis_Married','Marital_status_at_diagnosis_Single'], 
+                       ['Tumor_location_Antrum_Pylorus','Tumor_location_Body', 'Tumor_location_Cardia_Fundus'],
+                       ['Tumor_grade_Poorly_differentiated_undifferentiated','Tumor_grade_Well_moderately_differentiated'], 
+                       ['Tumor_size_2_5cm','Tumor_size_5_10cm', 'Tumor_size_bigger_10cm', 'Tumor_size_smaller_2cm'],
+                       ['AJCC_Stage_I', 'AJCC_Stage_II', 'AJCC_Stage_III', 'AJCC_Stage_IV'],
+                       ['Mitotic_rate_bigger_5HPF', 'Mitotic_rate_smaller_5HPF'],
+                       ['Surgery_Local_excision', 'Surgery_NoSurgery','Surgery_Radical_excision'], 
+                       ['Regional_nodes_examined_0','Regional_nodes_examined_1to4', 'Regional_nodes_examined_bigger_4'],
+                       ['Chemotherapy_No_Unknown', 'Chemotherapy_Yes'], 
+                       ['Age_at_diagnosis']]
+
+drop_features = ['Sex_Female', 'Race_White','Marital_status_at_diagnosis_Married','Tumor_location_Antrum_Pylorus',
+       'Tumor_grade_Well_moderately_differentiated', 'Tumor_size_smaller_2cm',
+        'AJCC_Stage_I', 'Mitotic_rate_smaller_5HPF', 'Surgery_Local_excision', 
+        'Regional_nodes_examined_0', 'Chemotherapy_Yes'] 
+
+def f_drop_features(col_features,drop_features):
+
+    for list_i in col_features:
+        for ele in list_i:
+            if ele in drop_features:
+                list_i.remove(ele) 
+            else:
+                pass
+    return col_features
+
+final_signal_features = f_drop_features(col_signal_features,drop_features)
+final_signal_features''',language='python',line_numbers=True)
+        st.code('''for feature in final_signal_features:
+    feature_final_data = final_data.loc[:,feature+['Survival_months', 'COD']]
+    print(feature_final_data.columns)
+    
+    aft = WeibullAFTFitter()
+    aft.fit(df=feature_final_data,duration_col='Survival_months',event_col='COD',show_progress=True)
+
+    aft.print_summary()
+''',language='python',line_numbers=True)
+        st.code('''features = final_data.columns
+final_two_features = [fea for fea in features if fea not in drop_features]
+final_two_features
+''',language='python',line_numbers=True)
+        st.code('''
+from lifelines import WeibullAFTFitter
+
+aft = WeibullAFTFitter()
+two_data_cox = final_data.loc[:,final_two_features]
+aft.fit(df=two_data_cox,duration_col='Survival_months',event_col='COD',show_progress=True)
+
+aft.print_summary()''',language='python',line_numbers=True)
+        st.code('''features_final_aft_8 = ['Age_at_diagnosis', 'Sex', 'Race', 'Marital_status_at_diagnosis',
+       'Tumor_location', 'Tumor_grade', 'Tumor_size', 'AJCC_Stage',
+       'Mitotic_rate', 'Surgery', 'Regional_nodes_examined', 'Chemotherapy']
+''',language='python',line_numbers=True)
         st.code('''''',language='python',line_numbers=True)
         st.code('''''',language='python',line_numbers=True)
-        st.code('''''',language='python',line_numbers=True)
-        st.code('''''',language='python',line_numbers=True)
+        
         st.subheader('Training And Testing Sets')
         st.code('''''',language='python',line_numbers=True)
         st.code('''''',language='python',line_numbers=True)
