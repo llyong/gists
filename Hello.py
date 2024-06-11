@@ -15,7 +15,9 @@ logo_path = 'gist.png'
 st.sidebar.image(logo_path, width=236)
 
 # 创建侧边栏选项
-options = ['Evaluating Nomogram Models for Predicting Survival Outcomes in Gastric Gastrointestinal Stromal Tumors with SEER Database Analysis','Comparative Prognostic Accuracy of Proportional versus Non-Proportional Hazards Models in Gastric Gastrointestinal Stromal Tumors: From Traditional Statistics to Deep Learning','radiomics Comming soon']
+# options = ['Evaluating Nomogram Models for Predicting Survival Outcomes in Gastric Gastrointestinal Stromal Tumors with SEER Database Analysis','Comparative Prognostic Accuracy of Proportional versus Non-Proportional Hazards Models in Gastric Gastrointestinal Stromal Tumors: From Traditional Statistics to Deep Learning','radiomics Comming soon']
+options = ['Integrating MissCatBoosts Imputation with SEER Data to Compare Proportional and Non-Proportional Hazards Models in Gastric GIST Prognosis','radiomics Comming soon']
+
 # selected_option = st.sidebar.selectbox('Select a chart type', options) # 下拉选
 selected_option = st.sidebar.radio('Select the Research Paper:', options) #直接选，这个更好
 
@@ -147,7 +149,7 @@ if selected_option == 'Evaluating Nomogram Models for Predicting Survival Outcom
 
 ##########################################################    2    #############################################################
 
-elif selected_option=='Comparative Prognostic Accuracy of Proportional versus Non-Proportional Hazards Models in Gastric Gastrointestinal Stromal Tumors: From Traditional Statistics to Deep Learning':
+elif selected_option=='Integrating MissCatBoosts Imputation with SEER Data to Compare Proportional and Non-Proportional Hazards Models in Gastric GIST Prognosis':
     # 这里分三页
 
     st.title(":apple: Comparative Prognostic Accuracy of Proportional versus Non-Proportional Hazards Models in Gastric Gastrointestinal Stromal Tumors: From Traditional Statistics to Deep Learning")
