@@ -152,7 +152,7 @@ if selected_option == 'Evaluating Nomogram Models for Predicting Survival Outcom
 elif selected_option=='Integrating MissCatBoosts Imputation with SEER Data to Compare Proportional and Non-Proportional Hazards Models in Gastric GIST Prognosis':
     # 这里分三页
 
-    st.title(":apple: Comparative Prognostic Accuracy of Proportional versus Non-Proportional Hazards Models in Gastric Gastrointestinal Stromal Tumors: From Traditional Statistics to Deep Learning")
+    st.title(":apple: Integrating MissCatBoosts Imputation with SEER Data to Compare Proportional and Non-Proportional Hazards Models in Gastric GIST Prognosis")
     tab1, tab2, tab3, tab4, tab5 = st.tabs(["Article Overview","Information input","Proportional Hazards Model","Non-Proportional Hazards Model","Python Code"])
 
     with tab1:
