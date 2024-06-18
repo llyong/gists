@@ -2,13 +2,13 @@
 # 2024-2-27 部署第一篇，还是通过重新new一次才可以，回头研究一下
 # 2024-3-27 部署了seer2的对比，绘图
 import streamlit as st
-import pandas as pd
-import numpy as np
-#from joblib import load #python3.11不支持
-# from lifelines import CoxPHFitter
-import pickle
-import matplotlib.pyplot as plt
-# plt.rcParams['font.family'] = 'Arial' #总是找不到字体，算了
+# import pandas as pd
+# import numpy as np
+# #from joblib import load #python3.11不支持
+# # from lifelines import CoxPHFitter
+# import pickle
+# import matplotlib.pyplot as plt
+# # plt.rcParams['font.family'] = 'Arial' #总是找不到字体，算了
 
 # 添加侧边栏图片
 logo_path = 'gist.png'
