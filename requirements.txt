@@ -1,6 +1,7 @@
 altair
 numpy==1.26.2
 pandas==1.5.3
+scipy==1.11.4
 pydeck
 streamlit
 lifelines
