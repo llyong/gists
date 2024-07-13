@@ -5,7 +5,7 @@ pandas==1.5.3
 pydeck
 streamlit
 lifelines==0.27.7
-scikit-survival
+scikit-survival==0.22.2
 torch
 pycox
 scipy==1.11.4
