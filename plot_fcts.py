@@ -14,6 +14,11 @@ matplotlib.rc('text', usetex=True)
 matplotlib.rcParams['text.latex.preamble'] = r"\usepackage{amsmath}"
 #matplotlib.rcParams['text.latex.preamble']=[r"\usepackage[utf8]{inputenc}"]
 
+matplotlib.rcParams.update({
+    "text.usetex": True,
+    "text.latex.preamble": [r"\usepackage{bm}"],
+})
+
 
 framableu = (12,91,122)
 framableulight = (18,144,176)
