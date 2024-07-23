@@ -22,7 +22,18 @@ options = ['neuronal network can solve any function','Integrating MissCatBoosts 
 selected_option = st.sidebar.radio('Select the Research Paper:', options) #直接选，这个更好
 
 #############################  万能逼近  ################################
+import inspect
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+import re
+import seaborn as sns
+import streamlit as st
 
+from mpl_toolkits import mplot3d
+from mpl_toolkits.mplot3d import Axes3D
+
+import plot_fcts as pf
 def plot(plot_fct, *kwargs):
     fig, ax = plt.subplots(figsize=(8, 6))
     plot_fct(ax, *kwargs)
