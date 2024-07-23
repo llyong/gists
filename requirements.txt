@@ -9,3 +9,4 @@ scikit-survival==0.22.2
 torch
 pycox
 scipy==1.11.4
+seaborn
