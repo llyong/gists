@@ -1377,5 +1377,5 @@ def run_the_app():
         b_plot_optional_activation,
         w_plot_optional_activation))
 ####### 0万能逼近  #####
-if selected_option == 'neuronal network can solve any function':
-    run_the_app()
+# if selected_option == 'neuronal network can solve any function':
+#     run_the_app()
