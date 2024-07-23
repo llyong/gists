@@ -3,10 +3,10 @@ altair
 numpy==1.26.2
 pandas==1.5.3
 pydeck
-streamlit
+streamlit ==1.32.0
 lifelines==0.27.7
 scikit-survival==0.22.2
 torch
 pycox
 scipy==1.11.4
-#seaborn
+seaborn
