@@ -1183,7 +1183,9 @@ with open('deepcox.pkl', 'rb') as file:
 
 elif selected_option == 'radiomics Comming soon':
 
+    st.image('gist.png')
     st.write(f"comming soon...")
+    st.image('logo.png')
 
 # elif selected_option == 'Pie Chart':
 
