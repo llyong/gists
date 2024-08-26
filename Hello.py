@@ -13,6 +13,8 @@ import matplotlib.pyplot as plt
 # 添加侧边栏图片
 #logo_path1 = 'gist.png'
 #st.sidebar.image(logo_path1, width=236)
+logo_path1 = 'gist.png'
+st.sidebar.image(logo_path1)
 logo_path2 = 'logo.png'
 st.sidebar.image(logo_path2)
 
