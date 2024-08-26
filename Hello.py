@@ -11,10 +11,10 @@ import matplotlib.pyplot as plt
 # plt.rcParams['font.family'] = 'Arial' #总是找不到字体，算了
 
 # 添加侧边栏图片
-logo_path = 'gist.png'
-st.sidebar.image(logo_path, width=236)
-logo_path = 'logo.png'
-st.sidebar.image(logo_path, width=236)
+logo_path1 = 'gist.png'
+st.sidebar.image(logo_path1, width=236)
+logo_path2 = 'logo.png'
+st.sidebar.image(logo_path2)
 
 # 创建侧边栏选项
 # options = ['Evaluating Nomogram Models for Predicting Survival Outcomes in Gastric Gastrointestinal Stromal Tumors with SEER Database Analysis','Comparative Prognostic Accuracy of Proportional versus Non-Proportional Hazards Models in Gastric Gastrointestinal Stromal Tumors: From Traditional Statistics to Deep Learning','radiomics Comming soon']
