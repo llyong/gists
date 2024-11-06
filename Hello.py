@@ -19,7 +19,7 @@ logo_path2 = 'logo.png'
 st.sidebar.image(logo_path2)
 
 # 创建侧边栏选项
-options = ['Evaluating Nomogram Models for Predicting Survival Outcomes in Gastric Gastrointestinal Stromal Tumors with SEER Database Analysis','Comparative Prognostic Accuracy of Proportional versus Non-Proportional Hazards Models in Gastric Gastrointestinal Stromal Tumors: From Traditional Statistics to Deep Learning','radiomics Comming soon']
+options = ['Evaluating Nomogram Models for Predicting Survival Outcomes in Gastric Gastrointestinal Stromal Tumors with SEER Database Analysis','Integrating MissCatBoosts Imputation with SEER Data to Compare Proportional and Non-Proportional Hazards Models in Gastric GIST Prognosis','radiomics Comming soon']
 # options = ['Integrating MissCatBoosts Imputation with SEER Data to Compare Proportional and Non-Proportional Hazards Models in Gastric GIST Prognosis','radiomics Comming soon']
 
 # selected_option = st.sidebar.selectbox('Select a chart type', options) # 下拉选
@@ -37,7 +37,7 @@ if selected_option == 'Evaluating Nomogram Models for Predicting Survival Outcom
     text_to_display = "DOI: 10.1038/s41598-024-62353-z"
     st.markdown(f"[{text_to_display}]({url})", unsafe_allow_html=True)
     
-    st.image(image_file, caption='GraphicalAbstract', use_column_width=True)
+    # st.image(image_file, caption='GraphicalAbstract', use_column_width=True)
     st.header("Please enter your information: ")
  
     # 类别型
@@ -162,8 +162,8 @@ elif selected_option=='Integrating MissCatBoosts Imputation with SEER Data to Co
     st.title(":apple: Integrating MissCatBoosts Imputation with SEER Data to Compare Proportional and Non-Proportional Hazards Models in Gastric GIST Prognosis")
     tab1, tab2, tab3, tab4, tab5 = st.tabs(["Article Overview","Information input","Proportional Hazards Model","Non-Proportional Hazards Model","Python Code"])
 
-    with tab1:
-        st.image('seer2.png', width=876)
+    # with tab1:
+        # st.image('seer2.png', width=876)
     with tab2:
         st.header("Please enter the information, and the real-time results will be displayed on the 'Proportional Hazards Model' and 'Non-Proportional Hazards Model' page : ")
  
