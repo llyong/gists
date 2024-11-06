@@ -160,11 +160,11 @@ elif selected_option=='Integrating MissCatBoosts Imputation with SEER Data to Co
     # 这里分三页，但注意里面的参数是算作一页的
 
     st.title(":apple: Integrating MissCatBoosts Imputation with SEER Data to Compare Proportional and Non-Proportional Hazards Models in Gastric GIST Prognosis")
-    tab1, tab2, tab3, tab4, tab5 = st.tabs(["Article Overview","Information input","Proportional Hazards Model","Non-Proportional Hazards Model","Python Code"])
+    tab1, tab2, tab3, tab4 = st.tabs(["Information input","Proportional Hazards Model","Non-Proportional Hazards Model","Python Code"])
 
     # with tab1:
         # st.image('seer2.png', width=876)
-    with tab2:
+    with tab1:
         st.header("Please enter the information, and the real-time results will be displayed on the 'Proportional Hazards Model' and 'Non-Proportional Hazards Model' page : ")
  
         # 类别型
@@ -262,7 +262,7 @@ elif selected_option=='Integrating MissCatBoosts Imputation with SEER Data to Co
         patient_series = (pd.Series(patient_data)).to_frame()
         patient_df = patient_series.T
         
-    with tab3:
+    with tab2:
         # 开始预测
         st.subheader("Probability of Survival on Proportional Hazards ")
         with open('cph.pkl', 'rb') as file:
@@ -300,7 +300,7 @@ elif selected_option=='Integrating MissCatBoosts Imputation with SEER Data to Co
         **Disclaimer:**
         This research is currently in the laboratory phase. The findings and outcomes presented are preliminary and have not been subjected to the rigorous testing and validation required for clinical application. The use of the information, techniques, or products described herein is at the user's own risk. It is imperative that any potential clinical application be preceded by thorough scientific evaluation and regulatory approval. The authors and affiliated institutions assume no liability for any adverse consequences resulting from the use of the information provided.
         ''')
-    with tab4:
+    with tab3:
 
         # 开始预测
 
@@ -320,7 +320,7 @@ elif selected_option=='Integrating MissCatBoosts Imputation with SEER Data to Co
         **Disclaimer:**
         This research is currently in the laboratory phase. The findings and outcomes presented are preliminary and have not been subjected to the rigorous testing and validation required for clinical application. The use of the information, techniques, or products described herein is at the user's own risk. It is imperative that any potential clinical application be preceded by thorough scientific evaluation and regulatory approval. The authors and affiliated institutions assume no liability for any adverse consequences resulting from the use of the information provided.
         ''')
-    with tab5:
+    with tab4:
         #代码展示
         st.image('seer23.jpg',caption='Schematic diagram of code and article correspondence')
         st.subheader('Data Preprocessing')
