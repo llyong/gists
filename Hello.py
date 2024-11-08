@@ -19,7 +19,7 @@ logo_path2 = 'logo.png'
 st.sidebar.image(logo_path2)
 
 # 创建侧边栏选项
-options = ['Evaluating Nomogram Models for Predicting Survival Outcomes in Gastric Gastrointestinal Stromal Tumors with SEER Database Analysis','Integrating MissCatBoosts Imputation with SEER Data to Compare Proportional and Non-Proportional Hazards Models in Gastric GIST Prognosis','radiomics Comming soon']
+options = ['Integrating MissCatBoosts Imputation with SEER Data to Compare Proportional and Non-Proportional Hazards Models in Gastric GIST Prognosis','Evaluating Nomogram Models for Predicting Survival Outcomes in Gastric Gastrointestinal Stromal Tumors with SEER Database Analysis','radiomics Comming soon']
 # options = ['Integrating MissCatBoosts Imputation with SEER Data to Compare Proportional and Non-Proportional Hazards Models in Gastric GIST Prognosis','radiomics Comming soon']
 
 # selected_option = st.sidebar.selectbox('Select a chart type', options) # 下拉选
