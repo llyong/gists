@@ -28,7 +28,7 @@ selected_option = st.sidebar.radio('Select the Research Paper:', options) #直�
 
 ##########################################################    1    #############################################################
 
-elif selected_option=='Integrating MissCatBoosts Imputation with SEER Data to Compare Proportional and Non-Proportional Hazards Models in Gastric GIST Prognosis':
+if selected_option=='Integrating MissCatBoosts Imputation with SEER Data to Compare Proportional and Non-Proportional Hazards Models in Gastric GIST Prognosis':
     # 这里分三页，但注意里面的参数是算作一页的
 
     st.title(":apple: Integrating MissCatBoosts Imputation with SEER Data to Compare Proportional and Non-Proportional Hazards Models in Gastric GIST Prognosis")
@@ -1052,7 +1052,7 @@ with open('deepcox.pkl', 'rb') as file:
 
 ##########################################################    2    #############################################################
 # 根据选择展示不同的图表
-if selected_option == 'Evaluating Nomogram Models for Predicting Survival Outcomes in Gastric Gastrointestinal Stromal Tumors with SEER Database Analysis':
+elif selected_option == 'Evaluating Nomogram Models for Predicting Survival Outcomes in Gastric Gastrointestinal Stromal Tumors with SEER Database Analysis':
     image_file = "seer1.jpg"
     st.title(":tada: Evaluating nomogram models for predicting survival outcomes in gastric gastrointestinal stromal tumors with SEER database analysis")
     url = "https://pubmed.ncbi.nlm.nih.gov/38769376/"
