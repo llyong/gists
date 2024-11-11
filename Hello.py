@@ -32,7 +32,7 @@ if selected_option=='Integrating MissCatBoosts Imputation with SEER Data to Comp
     # 这里分三页，但注意里面的参数是算作一页的
 
     st.title(":apple: Integrating MissCatBoosts Imputation with SEER Data to Compare Proportional and Non-Proportional Hazards Models in Gastric GIST Prognosis")
-    tab1, tab2, tab3, tab4 = st.tabs(["Information input","Proportional Hazards Model","Non-Proportional Hazards Model","Python Code"])
+    tab1, tab2, tab3, tab4 = st.tabs(["1.Information input","2.Proportional Hazards Model","3.Non-Proportional Hazards Model","4.Python Code"])
 
     # with tab1:
         # st.image('seer2.png', width=876)
