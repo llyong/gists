@@ -37,7 +37,7 @@ if selected_option=='Integrating MissCatBoosts Imputation with SEER Data to Comp
     # with tab1:
         # st.image('seer2.png', width=876)
     with tab1:
-        st.header("Please enter the information, and the real-time results will be displayed on the 'Proportional Hazards Model' and 'Non-Proportional Hazards Model' page : ")
+        st.title("Please enter the information, and the real-time results will be displayed on the 'Proportional Hazards Model' and 'Non-Proportional Hazards Model' page : ")
  
         # 类别型
         Sex = st.selectbox("Sex", options=["Female", "Male"])
