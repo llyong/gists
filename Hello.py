@@ -1184,7 +1184,7 @@ elif selected_option == 'radiomics Comming soon':
 
     st.image('gist.png')
     st.image('logo.png')
-    st.write(f"comming soon...")
+    st.write(f"comming soon...（由于免费服务器不足以支撑影像组学的部署，正在协调付费服务器，所有相关信息后续均会更新在此网址，感谢您的访问和关注。）")
 
 # elif selected_option == 'Pie Chart':
 
